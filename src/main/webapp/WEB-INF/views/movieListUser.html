@@ -1,0 +1,84 @@
+
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Movies List for User</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  <style>
+    body {
+      background: linear-gradient(135deg, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.5)), url('https://png.pngtree.com/background/20230827/original/pngtree-vibrant-cinema-experience-with-3d-glasses-popcorn-and-clapperboard-background-picture-image_4846477.jpg');
+      background-size: cover;
+      background-position: center center;
+      font-family: Arial, sans-serif;
+      color: white;
+    }
+    .movie-card {
+      background-color: white;
+      border-radius: 15px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      margin-bottom: 30px;
+      overflow: hidden;
+      transition: transform 0.3s ease-in-out;
+    }
+    .movie-card:hover {
+      transform: scale(1.05);
+    }
+    .movie-img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+    }
+    .movie-info {
+      padding: 15px;
+    }
+    .movie-title {
+      font-size: 24px;
+      font-weight: bold;
+      color: #333;
+    }
+    .movie-details {
+      margin-top: 10px;
+      font-size: 14px;
+      color: #666;
+    }
+    .buy-btn {
+      background-color: #007bff;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      text-decoration: none;
+      display: block;
+      text-align: center;
+    }
+    .buy-btn:hover {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+<body>
+<div class="container mt-5">
+  <h2 class="text-center mb-4">Movie list</h2>
+  <div class="row">
+
+    <div class="col-12 col-md-4 mb-4" th:each="movie : ${movies}">
+      <div class="movie-card">
+        <img class="movie-img" th:src="${movie.image}" alt="Movie Image">
+        <div class="movie-info">
+          <h5 class="movie-title" th:text="${movie.movieName}"></h5>
+          <div class="movie-details">
+            <p>Genre: <span th:text="${movie.genre}"></span></p>
+            <p>Duration: <span th:text="${movie.duration} + ' min.'"></span></p>
+            <p>Raiting: <span th:text="${movie.ageRating}"></span></p>
+          </div>
+          <a class="buy-btn" th:href="@{/movies/buy-ticket/{movieId}(movieId=${movie.id})}">Buy ticket</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

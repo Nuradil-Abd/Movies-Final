@@ -1,0 +1,14 @@
+<table>
+    <thead>
+    <tr>
+        <th>Название зала</th>
+        <th>Количество мест</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="hall : ${halls}">
+        <td th:text="${hall.name}">Зал</td>
+        <td th:text="${hall.countOfSeats}">Места</td>
+    </tr>
+    </tbody>
+</table>

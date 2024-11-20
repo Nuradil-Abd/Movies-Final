@@ -1,0 +1,43 @@
+<!--<script>-->
+<!--    $(document).ready(function () {-->
+<!--        $('#cinemaId').on('change', function () {-->
+<!--            const cinemaId = $(this).val();-->
+<!--            console.log("Selected cinema ID:", cinemaId);  // Логируем выбранный ID-->
+<!--            if (cinemaId) {-->
+<!--                $.ajax({-->
+<!--                    url: `/admin/getHallsByCinema/${cinemaId}`,-->
+<!--                    type: 'GET',-->
+<!--                    success: function (data) {-->
+<!--                        console.log("Received halls:", data);  // Проверка данных, полученных с сервера-->
+<!--                        const hallSelect = $('#hallId');-->
+<!--                        hallSelect.empty(); // Очистить текущие опции-->
+<!--                        hallSelect.append('<option value="" disabled selected>Выберите зал</option>');-->
+<!--                        data.forEach(function (hall) {-->
+<!--                            console.log("Adding hall:", hall);  // Проверка данных каждого зала-->
+<!--                            hallSelect.append(`<option value="${hall.id}">${hall.name}</option>`);-->
+<!--                        });-->
+<!--                    },-->
+<!--                    error: function (xhr, status, error) {-->
+<!--                        console.log("Error in AJAX request:", error);  // Логирование ошибки-->
+<!--                        alert('Ошибка при загрузке залов. Попробуйте снова.');-->
+<!--                    }-->
+<!--                });-->
+<!--            }-->
+<!--        });-->
+<!--    });-->
+<!--   -->
+<!--</script>-->
+<!--                <div class="col-md-6">-->
+<!--                    <label for="cinemaId" class="form-label">Выберите кинотеатр</label>-->
+<!--                    <select id="cinemaId" name="cinemaId" class="form-select" required>-->
+<!--                        <option value="" disabled selected>Выберите кинотеатр</option>-->
+<!--                        <option th:each="cinema : ${cinemas}" th:value="${cinema.id}" th:text="${cinema.name}"></option>-->
+<!--                    </select>-->
+<!--                </div>-->
+
+<!--                <div class="col-md-6">-->
+<!--                    <label for="hallId" class="form-label">Выберите зал</label>-->
+<!--                    <select id="hallId" name="hallId" class="form-select" required>-->
+<!--                        <option value="" disabled selected>Выберите зал</option>-->
+<!--                    </select>-->
+<!--                </div>-->

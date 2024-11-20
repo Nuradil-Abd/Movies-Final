@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Signup</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #3b4960;
+            background-image: url("https://png.pngtree.com/background/20230827/original/pngtree-vibrant-cinema-experience-with-3d-glasses-popcorn-and-clapperboard-background-picture-image_4846477.jpg");
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        .signup-container {
+            max-width: 500px;
+            width: 100%;
+            padding: 2rem;
+            background-color: rgba(255, 255, 255, 0.9); /* Slight transparency for better readability */
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+        .signup-container h2 {
+            margin-bottom: 1.5rem;
+            text-align: center;
+            color: #007bff;
+        }
+        .btn-primary {
+            width: 100%;
+            padding: 0.75rem;
+            font-size: 1rem;
+        }
+        p {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+<div class="signup-container">
+    <h2>Signup</h2>
+    <form action="/users/postSignup" method="post" th:object="${user}">
+        <div class="mb-3">
+            <label for="name" class="form-label">Name</label>
+            <input type="text" id="name" name="name" class="form-control" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="phoneNumber" class="form-label">Phone Number</label>
+            <input type="text" id="phoneNumber" name="phoneNumber" class="form-control" required>
+        </div>
+        <div class="mb-3">
+            <label for="age" class="form-label">Age</label>
+            <input type="number" id="age" name="age" class="form-control" required>
+        </div>
+        <div class="mb-3">
+            <label for="email" class="form-label">Email</label>
+            <input type="email" id="email" name="email" class="form-control" required>
+        </div>
+        <div class="mb-3">
+            <label for="password" class="form-label">Password</label>
+            <input type="password" id="password" name="password" class="form-control" required>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Sign Up</button>
+    </form>
+    <p class="mt-3">Already have an account? <a href="/users/getSignIn" class="link-primary">Sign in</a></p>
+</div>
+</body>
+</html>

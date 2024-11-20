@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Выбор фильма и залов</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+
+<div class="container mt-5">
+  <h2>Выберите фильм</h2>
+
+  <!-- Выпадающий список для выбора фильма -->
+  <select id="movieSelect" class="form-select mb-3">
+    <option value="" selected>Выберите фильм</option>
+    <option th:each="movie : ${movies}" th:value="${movie.id}" th:text="${movie.movieName}">Фильм</option>
+  </select>
+
+  <!-- Контейнер для отображения залов и сеансов -->
+  <div id="hallsContainer" class="mt-4">
+    <!-- Залы и сеансы будут загружены сюда -->
+  </div>
+</div>
+
+<script>
+  $(document).ready(function () {
+    $('#movieSelect').change(function () {
+      const movieId = $(this).val();
+
+      if (movieId) {
+        $.ajax({
+          url: '/cinema/hallsWithShowTimes',
+          type: 'GET',
+          data: {movieId: movieId},
+          success: function (response) {
+            $('#hallsContainer').html(response);
+          },
+          error: function () {
+            alert('Произошла ошибка при загрузке данных.');
+          }
+        });
+      } else {
+        $('#hallsContainer').empty();
+      }
+    });
+  });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Кинотеатр</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .navbar {
+            margin-bottom: 20px;
+        }
+        .carousel img {
+            height: 300px; /* Уменьшенная высота карусели */
+            object-fit: cover;
+        }
+        .movies-section {
+            margin-top: 20px;
+        }
+        .movies-title {
+            font-size: 24px;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        .movie-card {
+            width: 18rem;
+            margin: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">Кинотеатр</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link active" href="#">Войти</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Кинотеатры</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Фильмы</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">IMAX</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Dolby Atmos</a>
+                </li>
+<!--                <li class="nav-item">-->
+<!--                    <a class="nav-link" href="#">Cinematica</a>-->
+<!--                </li>-->
+            </ul>
+        </div>
+    </div>
+</nav>
+
+
+
+<div id="featuredMoviesCarousel" class="carousel slide mb-5" data-bs-ride="carousel">
+    <div class="carousel-inner">
+        <div class="carousel-item active">
+            <a href="/movies/details/1"> <!-- Link to movie details -->
+                <img src="https://via.placeholder.com/1200x300" class="d-block w-100" alt="Афиша 1">
+                <div class="carousel-caption d-none d-md-block">
+                    <h5>Название фильма 1</h5>
+                    <p>Описание фильма 1.</p>
+                </div>
+            </a>
+        </div>
+        <div class="carousel-item">
+            <a href="/movies/details/2">
+                <img src="https://via.placeholder.com/1200x300" class="d-block w-100" alt="Афиша 2">
+                <div class="carousel-caption d-none d-md-block">
+                    <h5>Название фильма 2</h5>
+                    <p>Описание фильма 2.</p>
+                </div>
+            </a>
+        </div>
+        <div class="carousel-item">
+            <a href="/movies/details/3">
+                <img src="https://via.placeholder.com/1200x300" class="d-block w-100" alt="Афиша 3">
+                <div class="carousel-caption d-none d-md-block">
+                    <h5>Название фильма 3</h5>
+                    <p>Описание фильма 3.</p>
+                </div>
+            </a>
+        </div>
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#featuredMoviesCarousel" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Предыдущий</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#featuredMoviesCarousel" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Следующий</span>
+    </button>
+</div>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Кинотеатр</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .movie-card { width: 18rem; margin: 10px; }
+    </style>
+</head>
+<body>
+
+<div class="container movies-section">
+    <h2 class="movies-title">Фильмы</h2>
+
+    <!-- Filter Buttons -->
+    <div class="d-flex justify-content-center mb-4">
+        <button class="btn btn-primary me-2" onclick="loadMovies('today')">Сегодня в кино</button>
+        <button class="btn btn-secondary" onclick="loadMovies('upcoming')">Скоро</button>
+    </div>
+
+    <!-- Movies Grid -->
+    <div id="movies-container" class="row">
+        <!-- Фильмы будут загружены и вставлены здесь -->
+    </div>
+</div>
+
+<script>
+    // Функция для загрузки фильмов по типу (сегодня или скоро)
+    function loadMovies(type) {
+        // URL запроса в зависимости от типа
+        const url = type === 'today' ? '/movies/today' : '/movies/upcoming';
+
+        // Выполняем запрос на сервер для получения списка фильмов
+        fetch(url)
+            .then(response => response.json())
+            .then(movies => {
+                const moviesContainer = document.getElementById('movies-container');
+                moviesContainer.innerHTML = ''; // Очищаем контейнер перед вставкой новых фильмов
+
+                // Добавляем фильмы в контейнер
+                movies.forEach(movie => {
+                    const movieCard = `
+                  <div class="col-md-3">
+                    <div class="card movie-card">
+                      <a href="/movies/details/${movie.id}">
+                        <img src="${movie.photoUrl}" class="card-img-top" alt="Movie Image">
+                      </a>
+                      <div class="card-body">
+                        <h5 class="card-title">${movie.movieName}</h5>
+                        <p class="card-text">${movie.description}</p>
+                        <a href="/movies/details/${movie.id}" class="btn btn-primary">Купить билет</a>
+                      </div>
+                    </div>
+                  </div>`;
+                    moviesContainer.insertAdjacentHTML('beforeend', movieCard);
+                });
+            })
+            .catch(error => console.error('Ошибка загрузки фильмов:', error));
+    }
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+
+<!--&lt;!&ndash; Movies Section &ndash;&gt;-->
+<!--<div class="container movies-section">-->
+<!--    <h2 class="movies-title">Фильмы</h2>-->
+
+<!--    &lt;!&ndash; Filter Buttons &ndash;&gt;-->
+<!--    <div class="d-flex justify-content-center mb-4">-->
+<!--        <button class="btn btn-primary me-2">Сегодня в кино</button>-->
+<!--        <button class="btn btn-secondary">Скоро</button>-->
+<!--    </div>-->
+
+<!--    &lt;!&ndash; Movies Grid &ndash;&gt;-->
+<!--    <div class="row">-->
+
+<!--        <div class="col-md-3">-->
+<!--            <div class="card movie-card">-->
+<!--                <img src="https://via.placeholder.com/150" class="card-img-top" alt="Movie Image">-->
+<!--                <div class="card-body">-->
+<!--                    <h5 class="card-title">Название фильма 1</h5>-->
+<!--                    <p class="card-text">Описание фильма 1. Продолжительность: 120 мин.</p>-->
+<!--                    <a href="#" class="btn btn-primary">Купить билет</a>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--        <div class="col-md-3">-->
+<!--            <div class="card movie-card">-->
+<!--                <img src="https://via.placeholder.com/150" class="card-img-top" alt="Movie Image">-->
+<!--                <div class="card-body">-->
+<!--                    <h5 class="card-title">Название фильма 2</h5>-->
+<!--                    <p class="card-text">Описание фильма 2. Продолжительность: 100 мин.</p>-->
+<!--                    <a href="#" class="btn btn-primary">Купить билет</a>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--        <div class="col-md-3">-->
+<!--            <div class="card movie-card">-->
+<!--                <img src="https://via.placeholder.com/150" class="card-img-top" alt="Movie Image">-->
+<!--                <div class="card-body">-->
+<!--                    <h5 class="card-title">Название фильма 2</h5>-->
+<!--                    <p class="card-text">Описание фильма 2. Продолжительность: 100 мин.</p>-->
+<!--                    <a href="#" class="btn btn-primary">Купить билет</a>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div><div class="col-md-3">-->
+<!--        <div class="card movie-card">-->
+<!--            <img src="https://via.placeholder.com/150" class="card-img-top" alt="Movie Image">-->
+<!--            <div class="card-body">-->
+<!--                <h5 class="card-title">Название фильма 2</h5>-->
+<!--                <p class="card-text">Описание фильма 2. Продолжительность: 100 мин.</p>-->
+<!--                <a href="#" class="btn btn-primary">Купить билет</a>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--        &lt;!&ndash; Additional movie cards would go here for a full 4x4 grid &ndash;&gt;-->
+<!--    </div>-->
+<!--    <div class="row">-->
+
+<!--        <div class="col-md-3">-->
+<!--            <div class="card movie-card">-->
+<!--                <img src="https://via.placeholder.com/150" class="card-img-top" alt="Movie Image">-->
+<!--                <div class="card-body">-->
+<!--                    <h5 class="card-title">Название фильма 1</h5>-->
+<!--                    <p class="card-text">Описание фильма 1. Продолжительность: 120 мин.</p>-->
+<!--                    <a href="#" class="btn btn-primary">Купить билет</a>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--        <div class="col-md-3">-->
+<!--            <div class="card movie-card">-->
+<!--                <img src="https://via.placeholder.com/150" class="card-img-top" alt="Movie Image">-->
+<!--                <div class="card-body">-->
+<!--                    <h5 class="card-title">Название фильма 2</h5>-->
+<!--                    <p class="card-text">Описание фильма 2. Продолжительность: 100 мин.</p>-->
+<!--                    <a href="#" class="btn btn-primary">Купить билет</a>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--        <div class="col-md-3">-->
+<!--            <div class="card movie-card">-->
+<!--                <img src="https://via.placeholder.com/150" class="card-img-top" alt="Movie Image">-->
+<!--                <div class="card-body">-->
+<!--                    <h5 class="card-title">Название фильма 2</h5>-->
+<!--                    <p class="card-text">Описание фильма 2. Продолжительность: 100 мин.</p>-->
+<!--                    <a href="#" class="btn btn-primary">Купить билет</a>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div><div class="col-md-3">-->
+<!--        <div class="card movie-card">-->
+<!--            <img src="https://via.placeholder.com/150" class="card-img-top" alt="Movie Image">-->
+<!--            <div class="card-body">-->
+<!--                <h5 class="card-title">Название фильма 2</h5>-->
+<!--                <p class="card-text">Описание фильма 2. Продолжительность: 100 мин.</p>-->
+<!--                <a href="#" class="btn btn-primary">Купить билет</a>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--        &lt;!&ndash; Additional movie cards would go here for a full 4x4 grid &ndash;&gt;-->
+<!--    </div>-->
+<!--    <div class="row">-->
+
+<!--        <div class="col-md-3">-->
+<!--            <div class="card movie-card">-->
+<!--                <img src="https://via.placeholder.com/150" class="card-img-top" alt="Movie Image">-->
+<!--                <div class="card-body">-->
+<!--                    <h5 class="card-title">Название фильма 1</h5>-->
+<!--                    <p class="card-text">Описание фильма 1. Продолжительность: 120 мин.</p>-->
+<!--                    <a href="#" class="btn btn-primary">Купить билет</a>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--        <div class="col-md-3">-->
+<!--            <div class="card movie-card">-->
+<!--                <img src="https://via.placeholder.com/150" class="card-img-top" alt="Movie Image">-->
+<!--                <div class="card-body">-->
+<!--                    <h5 class="card-title">Название фильма 2</h5>-->
+<!--                    <p class="card-text">Описание фильма 2. Продолжительность: 100 мин.</p>-->
+<!--                    <a href="#" class="btn btn-primary">Купить билет</a>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--        <div class="col-md-3">-->
+<!--            <div class="card movie-card">-->
+<!--                <img src="https://via.placeholder.com/150" class="card-img-top" alt="Movie Image">-->
+<!--                <div class="card-body">-->
+<!--                    <h5 class="card-title">Название фильма 2</h5>-->
+<!--                    <p class="card-text">Описание фильма 2. Продолжительность: 100 мин.</p>-->
+<!--                    <a href="#" class="btn btn-primary">Купить билет</a>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div><div class="col-md-3">-->
+<!--        <div class="card movie-card">-->
+<!--            <img src="https://via.placeholder.com/150" class="card-img-top" alt="Movie Image">-->
+<!--            <div class="card-body">-->
+<!--                <h5 class="card-title">Название фильма 2</h5>-->
+<!--                <p class="card-text">Описание фильма 2. Продолжительность: 100 мин.</p>-->
+<!--                <a href="#" class="btn btn-primary">Купить билет</a>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--        &lt;!&ndash; Additional movie cards would go here for a full 4x4 grid &ndash;&gt;-->
+<!--    </div>-->
+<!--    <div class="row">-->
+
+<!--        <div class="col-md-3">-->
+<!--            <div class="card movie-card">-->
+<!--                <img src="https://via.placeholder.com/150" class="card-img-top" alt="Movie Image">-->
+<!--                <div class="card-body">-->
+<!--                    <h5 class="card-title">Название фильма 1</h5>-->
+<!--                    <p class="card-text">Описание фильма 1. Продолжительность: 120 мин.</p>-->
+<!--                    <a href="#" class="btn btn-primary">Купить билет</a>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--        <div class="col-md-3">-->
+<!--            <div class="card movie-card">-->
+<!--                <img src="https://via.placeholder.com/150" class="card-img-top" alt="Movie Image">-->
+<!--                <div class="card-body">-->
+<!--                    <h5 class="card-title">Название фильма 2</h5>-->
+<!--                    <p class="card-text">Описание фильма 2. Продолжительность: 100 мин.</p>-->
+<!--                    <a href="#" class="btn btn-primary">Купить билет</a>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--        <div class="col-md-3">-->
+<!--            <div class="card movie-card">-->
+<!--                <img src="https://via.placeholder.com/150" class="card-img-top" alt="Movie Image">-->
+<!--                <div class="card-body">-->
+<!--                    <h5 class="card-title">Название фильма 2</h5>-->
+<!--                    <p class="card-text">Описание фильма 2. Продолжительность: 100 мин.</p>-->
+<!--                    <a href="#" class="btn btn-primary">Купить билет</a>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div><div class="col-md-3">-->
+<!--        <div class="card movie-card">-->
+<!--            <img src="https://via.placeholder.com/150" class="card-img-top" alt="Movie Image">-->
+<!--            <div class="card-body">-->
+<!--                <h5 class="card-title">Название фильма 2</h5>-->
+<!--                <p class="card-text">Описание фильма 2. Продолжительность: 100 мин.</p>-->
+<!--                <a href="#" class="btn btn-primary">Купить билет</a>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--        &lt;!&ndash; Additional movie cards would go here for a full 4x4 grid &ndash;&gt;-->
+<!--    </div>-->
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

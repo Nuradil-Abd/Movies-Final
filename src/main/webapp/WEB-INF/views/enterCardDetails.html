@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Save Card Details</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+  <style>
+    body {
+      background-color: #f8f9fa;
+      font-family: 'Arial', sans-serif;
+    }
+    .form-container {
+      margin: 50px auto;
+      max-width: 500px;
+      padding: 20px;
+      background-color: #ffffff;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    .form-container h2 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #007bff;
+    }
+    .btn-primary {
+      background-color: #007bff;
+      border: none;
+    }
+    .btn-primary:hover {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <div class="form-container">
+    <h2>Save Card Details</h2>
+    <form action="/users/saveCard" method="post" th:object="${card}">
+      <!-- Передаем userId как скрытое поле -->
+      <input type="hidden" name="userId" th:value="${userId}" />
+
+      <div class="mb-3">
+        <label for="number" class="form-label">Card Number</label>
+        <input type="text" id="number" name="number" class="form-control" placeholder="Enter card number" required>
+      </div>
+
+      <div class="mb-3">
+        <label for="balance" class="form-label">Balance</label>
+        <input type="number" id="balance" name="balance" class="form-control" placeholder="Enter balance" required>
+      </div>
+
+      <div class="mb-3">
+        <label for="expiredDate" class="form-label">Expiry Date</label>
+        <input type="date" id="expiredDate" name="expiredDate" class="form-control" required>
+      </div>
+
+      <button type="submit" class="btn btn-primary w-100">Save Card Details</button>
+    </form>
+  </div>
+</div>
+</body>
+</html>
