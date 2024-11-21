@@ -5,6 +5,7 @@ import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.TypedQuery;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Repository;
+import peaksoft.entity.Cinema;
 import peaksoft.entity.Hall;
 import peaksoft.repo.HallRepo;
 
@@ -62,7 +63,24 @@ public class HallRepoImpl implements HallRepo {
 
     @Override
     public void deleteById(Long id) {
-        entityManager.remove(entityManager.find(Hall.class,id));
+        Hall hall = entityManager.find(Hall.class, id);
+
+        if (hall == null) {
+            throw new IllegalArgumentException("Hall not found with ID: " + id);
+        }
+        Cinema cinema = hall.getCinema();
+        if (cinema != null) {
+            cinema.getHalls().remove(hall);
+            hall.setCinema(null);
+        }
+        hall.getShowTimes().forEach(showTime -> {
+            showTime.getTickets().clear();
+            entityManager.remove(showTime);
+        });
+        hall.getShowTimes().clear();
+        entityManager.remove(hall);
+
+        System.out.println("Hall deleted successfully");
     }
 
     @Override

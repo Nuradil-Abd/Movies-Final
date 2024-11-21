@@ -10,6 +10,7 @@ import peaksoft.entity.Movie;
 import peaksoft.repo.CinemaRepo;
 import peaksoft.services.CinemaService;
 
+import java.sql.Time;
 import java.util.List;
 
 @Service
@@ -63,4 +64,5 @@ public class CinemaServiceImpl implements CinemaService {
     public void update(Cinema cinema) {
         cinemaRepo.update(cinema);
     }
+
 }

@@ -54,7 +54,8 @@ public class ShowTimeServiceImpl implements ShowTimeService {
 
     @Override
     public List<ShowTime> getShowTimesForMovie(Long movieId) {
-        return showTimeRepository.getShowTimesForMovie(movieId);}
+        return showTimeRepository.getShowTimesForMovie(movieId);
+    }
 
     @Override
     public List<ShowTime> getShowTimesForHallAndMovie(long id, Long movieId) {
@@ -63,7 +64,7 @@ public class ShowTimeServiceImpl implements ShowTimeService {
 
     @Override
     public ShowTime findByMovieAndHallAndStartTime(Movie movie, Hall hall, Time time) {
-        return showTimeRepository.findByMovieAndHallAndStartTime( movie,  hall, time);
+        return showTimeRepository.findByMovieAndHallAndStartTime(movie, hall, time);
     }
 
     @Transactional
@@ -85,5 +86,27 @@ public class ShowTimeServiceImpl implements ShowTimeService {
         showTime.setPrice(price);
 
         return showTime;
+    }
+
+    @Override
+    public boolean isTimeSlotOccupied(Long hallId, Time startTime, int movieDuration) {
+        List<ShowTime> existingShowTimes = showTimeRepository.findByHallId(hallId);
+
+        for (ShowTime existingShowTime : existingShowTimes) {
+
+            Time existingStartTime = existingShowTime.getStartTime();
+            int existingDuration = existingShowTime.getMovie().getDuration();
+
+            Time existingEndTime = Time.valueOf(existingStartTime.toLocalTime().plusMinutes(existingDuration));
+
+            Time newEndTime = Time.valueOf(startTime.toLocalTime().plusMinutes(movieDuration));
+
+            if (!(newEndTime.before(existingStartTime) || startTime.after(existingEndTime))) {
+                System.out.println("Overlap found: existing [" + existingStartTime + " - " + existingEndTime
+                                   + "], new [" + startTime + " - " + newEndTime + "]");
+                return true;
+            }
+        }
+        return false;
     }
 }

@@ -4,6 +4,7 @@ import peaksoft.entity.Cinema;
 import peaksoft.entity.Hall;
 import peaksoft.entity.Movie;
 
+import java.sql.Time;
 import java.util.List;
 
 public interface CinemaService {
@@ -24,4 +25,6 @@ public interface CinemaService {
     List<Cinema> getCinemasForMovie(Long movieId);
 
     void update(Cinema cinema);
+
+
 }

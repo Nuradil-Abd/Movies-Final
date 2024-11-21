@@ -163,7 +163,7 @@
                 <div class="showtime-cards d-flex flex-wrap">
                     <div th:each="showTime : ${hall.showTimes}" class="showtime-card flex-grow-1 me-2">
                         <p><strong>Дата и время:</strong> <span th:text="${showTime.startTime}"></span></p>
-                        <a th:href="@{/showtime/{showTimeId}/seats(showTimeId=${showTime.id})}" class="btn btn-primary btn-sm">
+                        <a th:href="@{/tickets/selectTicket/{showTimeId}(showTimeId=${showTime.id})}" class="btn btn-primary btn-sm">
                             Выбрать места
                         </a>
                     </div>

@@ -13,9 +13,17 @@
   </section>
 
   <h2 class="mb-4">Добавить ShowTime</h2>
+  <div th:if="${warning}" class="alert alert-warning">
+    <p th:text="${warning}"></p>
+  </div>
+
+  <div th:if="${success}" class="alert alert-success">
+    <p th:text="${success}"></p>
+  </div>
 
   <!-- Форма для добавления ShowTime -->
   <form action="/admin/addShowTime" method="post">
+
     <div class="row g-3">
       <div class="col-md-4">
         <label for="startTime" class="form-label">Время начала</label>

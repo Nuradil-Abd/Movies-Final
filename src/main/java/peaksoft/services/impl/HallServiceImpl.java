@@ -41,16 +41,7 @@ public class HallServiceImpl implements HallService {
 
     @Transactional
     public void deleteHallById(Long id) {
-        Hall hall = hallRepo.findById(id);
-
-
-        hall.getShowTimes().forEach(showTime -> showTime.getTickets().clear());
-        hall.getShowTimes().clear();
-
-
         hallRepo.deleteById(id);
-
-        System.out.println("Hall deleted successfully");
     }
 
     @Override

@@ -74,19 +74,37 @@ public class TicketRepoImpl implements TicketRepo {
         }
 
     }
-    public void purchaseTicket(Long ticketId, User user) {
-        Ticket ticket = entityManager.find(Ticket.class, ticketId);
-        if (ticket != null && !ticket.isPurchased()) {
-            ticket.setUser(user);
-            ticket.setPurchased(true);
-            entityManager.merge(ticket);
+
+    public boolean purchaseTickets(List<Long> ticketIds, User user) {
+
+        List<Ticket> tickets = entityManager.createQuery("SELECT t FROM Ticket t WHERE t.id IN :ticketIds", Ticket.class)
+                .setParameter("ticketIds", ticketIds)
+                .getResultList();
+
+        boolean allPurchased = true;
+        for (Ticket ticket : tickets) {
+            if (ticket != null && !ticket.isPurchased()) {
+                ticket.setUser(user);
+                ticket.setPurchased(true);
+                entityManager.merge(ticket);
+            } else {
+                allPurchased = false; 
+            }
         }
+        return allPurchased;
     }
+    public List<Ticket> getAvailableTicketsForShowTime(Long showTimeId) {
+        return entityManager.createQuery(
+                        "SELECT t FROM Ticket t WHERE t.showTime.id = :showTimeId AND t.isPurchased = false", Ticket.class)
+                .setParameter("showTimeId", showTimeId)
+                .getResultList();
+    }
+
 
 
     @Override
     public void createTicket(Long userId, Long showTimeId) {
-        // Получаем объекты user и showTime из базы данных
+
         User user = entityManager.find(User.class, userId);
         ShowTime showTime = entityManager.find(ShowTime.class, showTimeId);
 
@@ -111,6 +129,7 @@ public class TicketRepoImpl implements TicketRepo {
         Ticket ticket = new Ticket();
         ticket.setUser(user);
         ticket.setShowTime(showTime);
+
 
         entityManager.persist(ticket);
     }

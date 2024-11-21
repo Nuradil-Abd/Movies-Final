@@ -59,8 +59,8 @@ public class AdminController {
 
 
     @PostMapping("/addCinema")
-    public String addCinema(@ModelAttribute("cinema") Cinema cinema) {
-        cinemaService.save(cinema);
+    public String addCinema(@ModelAttribute("cinema") Cinema cinema, RedirectAttributes redirectAttributes) {
+        cinemaService.save(cinema);redirectAttributes.addFlashAttribute("success", "Кинотеатр успешно добавлен!");
         return "redirect:/admin";
     }
 
@@ -81,7 +81,7 @@ public class AdminController {
     }
 
     @PostMapping("/addHall")
-    public String addHall(@RequestParam String name, @RequestParam int countOfSeats, @RequestParam Long cinemaId) {
+    public String addHall(@RequestParam String name, @RequestParam int countOfSeats, @RequestParam Long cinemaId, RedirectAttributes redirectAttributes) {
         Cinema cinema = cinemaService.getCinemaById(cinemaId);
 
 
@@ -92,6 +92,7 @@ public class AdminController {
 
 
         hallService.saveHall(hall);
+        redirectAttributes.addFlashAttribute("success", "Зал успешно добавлен!");
 
         return "redirect:/admin";
     }
@@ -117,14 +118,14 @@ public class AdminController {
     }
 
     @PostMapping("/deleteCinema")
-    public String deleteCinema(@RequestParam("cinemaId") Long cinemaId) {
-        cinemaService.deleteById(cinemaId);
+    public String deleteCinema(@RequestParam("cinemaId") Long cinemaId, RedirectAttributes redirectAttributes) {
+        cinemaService.deleteById(cinemaId);redirectAttributes.addFlashAttribute("success", "Кинотеатр успешно удален!");
         return "redirect:/admin";
     }
 
     @PostMapping("/deleteHall")
-    public String deleteHall(@RequestParam("hallId") Long hallId) {
-       hallService.deleteHallById(hallId);
+    public String deleteHall(@RequestParam("hallId") Long hallId, RedirectAttributes redirectAttributes) {
+       hallService.deleteHallById(hallId);redirectAttributes.addFlashAttribute("success", "Зал успешно удален!");
         return "redirect:/admin";
     }
 
@@ -155,7 +156,6 @@ public class AdminController {
     @GetMapping("/addEditMovie")
     public String showAddEditMoviePage(Model model) {
         List<MovieInfo> movieInfos = movieInfoService.findAllMovieInfos();
-        System.out.println("MovieInfo size: " + movieInfos.size());
         model.addAttribute("movieInfos", movieInfos);
 
         List<Movie> movies = movieService.getAllMovies();
@@ -210,22 +210,30 @@ public class AdminController {
     public String addShowTime(@RequestParam Long movieId,
                               @RequestParam Long hallId,
                               @RequestParam String startTime,
-                              @RequestParam double price) {
+                              @RequestParam double price,
+                              Model model) {
 
         ShowTime showTime = showTimeService.prepareShowTimeData(movieId, hallId, startTime, price);
 
-        ShowTime existingShowTime = showTimeService.findByMovieAndHallAndStartTime(
-                showTime.getMovie(),
-                showTime.getHall(),
-                showTime.getStartTime()
+
+        boolean isTimeSlotTaken = showTimeService.isTimeSlotOccupied(
+                hallId,
+                Time.valueOf(LocalTime.parse(startTime)),
+                showTime.getMovie().getDuration()
         );
-        if (existingShowTime != null) {
-            return "redirect:/admin/showTimePageAdmin?error=duplicateShowTime";
+
+        if (isTimeSlotTaken) {
+            model.addAttribute("warning", "Сеанс на это время уже занят. Выберите другое время.");
+        } else {
+
+            showTimeService.saveShowTime(showTime);
+            model.addAttribute("success", "Сеанс успешно добавлен.");
         }
 
-        // Сохраняем новый ShowTime
-        showTimeService.saveShowTime(showTime);
-        return "redirect:/admin/showTimePageAdmin";
+        model.addAttribute("showTimes", showTimeService.getAllShowTimes());
+        model.addAttribute("movies", movieService.getAllMovies());
+        model.addAttribute("halls", hallService.getAllHalls());
+        return "showTimePageAdmin";
     }
 
 

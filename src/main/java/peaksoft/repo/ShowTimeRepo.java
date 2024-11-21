@@ -26,4 +26,5 @@ public interface ShowTimeRepo {
     ShowTime findByMovieAndHallAndStartTime(Movie movie, Hall hall, Time time);
 
     List<ShowTime> findByCinemaAndMovie(Long cinemaId, Long movieId);
+
 }

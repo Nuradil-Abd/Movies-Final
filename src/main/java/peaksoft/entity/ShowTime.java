@@ -42,7 +42,7 @@ public class ShowTime {
 
     @PrePersist
     public void generateTicketsForShowTime() {
-        if (this.tickets == null) {
+        if (this.tickets == null || this.tickets.isEmpty()) {
             this.tickets = new ArrayList<>();
         }
         int seatCount = hall.getCountOfSeats();

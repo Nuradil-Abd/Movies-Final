@@ -56,7 +56,12 @@ public class TicketServiceImpl implements TicketService {
     }
 
     @Override
-    public void purchaseTicket(Long ticketId, User user) {
-        ticketRepo.purchaseTicket(ticketId,user);
+    public boolean purchaseTickets(List<Long> ticketIds, User user) {
+        return ticketRepo.purchaseTickets(ticketIds,user);
+    }
+
+    @Override
+    public List<Ticket> getAvailableTicketsForShowTime(Long showTimeId) {
+        return ticketRepo.getAvailableTicketsForShowTime(showTimeId);
     }
 }

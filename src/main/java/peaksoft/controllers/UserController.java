@@ -51,11 +51,12 @@ public class UserController {
 
         User authenticatedUser = userService.authenticate(email, password);
         if (authenticatedUser != null) {
+            session.setAttribute("currentUser", authenticatedUser);
 
             if (authenticatedUser.getRole() == Role.ADMIN) {
                 return "redirect:/admin";
             } else if (authenticatedUser.getRole() == Role.USER) {
-                return "redirect:/movies/all";
+                return "redirect:/movies";
             }
             return "redirect:/errorPage";
         } else {
@@ -72,6 +73,15 @@ public class UserController {
 
         cardService.saveCard(card);
         return "redirect:/users/success";
+    }
+    @GetMapping("/profile")
+    public String profile(HttpSession session, Model model) {
+        User user = (User) session.getAttribute("currentUser");
+        if (user == null) {
+            return "redirect:/signIn";
+        }
+        model.addAttribute("user", user);
+        return "profile";
     }
 
 }

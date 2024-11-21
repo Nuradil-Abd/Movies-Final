@@ -15,7 +15,8 @@ public interface TicketRepo {
     List<Ticket> getTicketsByUserId(Long userId);
     void updateTicket(Long id, Ticket updatedTicket);
     void deleteTicket(Long id);
-    void purchaseTicket(Long ticketId, User user);
+    boolean purchaseTickets(List<Long> ticketIds, User user);
     void createTicket(Long userId, Long showTimeId);
+    List<Ticket> getAvailableTicketsForShowTime(Long showTimeId);
 
 }

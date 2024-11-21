@@ -1,141 +1,212 @@
+<!--&lt;!&ndash;<!DOCTYPE html>&ndash;&gt;-->
+<!--&lt;!&ndash;<html lang="en">&ndash;&gt;-->
+<!--&lt;!&ndash;<head>&ndash;&gt;-->
+<!--&lt;!&ndash;    <meta charset="UTF-8">&ndash;&gt;-->
+<!--&lt;!&ndash;    <meta name="viewport" content="width=device-width, initial-scale=1.0">&ndash;&gt;-->
+<!--&lt;!&ndash;    <title>Add Ticket</title>&ndash;&gt;-->
+<!--&lt;!&ndash;    <link rel="stylesheet" href="styles.css"> &lt;!&ndash; Подключение CSS при необходимости &ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;</head>&ndash;&gt;-->
+<!--&lt;!&ndash;<style>&ndash;&gt;-->
+<!--&lt;!&ndash;    #seats-container {&ndash;&gt;-->
+<!--&lt;!&ndash;        display: grid;&ndash;&gt;-->
+<!--&lt;!&ndash;        grid-template-columns: repeat(10, 40px); /* 10 мест в ряду */&ndash;&gt;-->
+<!--&lt;!&ndash;        gap: 10px;&ndash;&gt;-->
+<!--&lt;!&ndash;    }&ndash;&gt;-->
+
+<!--&lt;!&ndash;    .seat {&ndash;&gt;-->
+<!--&lt;!&ndash;        width: 40px;&ndash;&gt;-->
+<!--&lt;!&ndash;        height: 40px;&ndash;&gt;-->
+<!--&lt;!&ndash;        border: 1px solid #ccc;&ndash;&gt;-->
+<!--&lt;!&ndash;        border-radius: 4px;&ndash;&gt;-->
+<!--&lt;!&ndash;        cursor: pointer;&ndash;&gt;-->
+<!--&lt;!&ndash;        text-align: center;&ndash;&gt;-->
+<!--&lt;!&ndash;        line-height: 40px;&ndash;&gt;-->
+<!--&lt;!&ndash;    }&ndash;&gt;-->
+
+<!--&lt;!&ndash;    .seat.available {&ndash;&gt;-->
+<!--&lt;!&ndash;        background-color: #4caf50; /* Зеленый цвет для доступных мест */&ndash;&gt;-->
+<!--&lt;!&ndash;        color: white;&ndash;&gt;-->
+<!--&lt;!&ndash;    }&ndash;&gt;-->
+
+<!--&lt;!&ndash;    .seat.occupied {&ndash;&gt;-->
+<!--&lt;!&ndash;        background-color: #f44336; /* Красный цвет для занятых мест */&ndash;&gt;-->
+<!--&lt;!&ndash;        color: white;&ndash;&gt;-->
+<!--&lt;!&ndash;        cursor: not-allowed;&ndash;&gt;-->
+<!--&lt;!&ndash;    }&ndash;&gt;-->
+<!--&lt;!&ndash;</style>&ndash;&gt;-->
+<!--&lt;!&ndash;<body>&ndash;&gt;-->
+<!--&lt;!&ndash;<h1>Add Ticket</h1>&ndash;&gt;-->
+<!--&lt;!&ndash;<form action="/tickets/add" method="post">&ndash;&gt;-->
+<!--&lt;!&ndash;    &lt;!&ndash; Seat Number &ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;    <div>&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;        <label for="seatNumber">Seat Number:</label>&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;        <input type="number" id="seatNumber" name="seatNumber" required>&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;    </div>&ndash;&gt;&ndash;&gt;-->
+
+<!--&lt;!&ndash;    &lt;!&ndash; User Selection &ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;    <div>&ndash;&gt;-->
+<!--&lt;!&ndash;        <label for="userId">User:</label>&ndash;&gt;-->
+<!--&lt;!&ndash;        <select id="userId" name="userId" required>&ndash;&gt;-->
+<!--&lt;!&ndash;            <option value="" disabled selected>Select a user</option>&ndash;&gt;-->
+<!--&lt;!&ndash;            <th:block th:each="user : ${users}">&ndash;&gt;-->
+<!--&lt;!&ndash;                <option th:value="${user.id}" th:text="${user.name}"></option>&ndash;&gt;-->
+<!--&lt;!&ndash;            </th:block>&ndash;&gt;-->
+<!--&lt;!&ndash;        </select>&ndash;&gt;-->
+<!--&lt;!&ndash;    </div>&ndash;&gt;-->
+
+<!--&lt;!&ndash;    &lt;!&ndash; Show Time Selection &ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;    <div>&ndash;&gt;-->
+<!--&lt;!&ndash;        <label for="showTimeId">Show Time:</label>&ndash;&gt;-->
+<!--&lt;!&ndash;        <select id="showTimeId" name="showTimeId" required>&ndash;&gt;-->
+<!--&lt;!&ndash;            <option value="" disabled selected>Select a show time</option>&ndash;&gt;-->
+<!--&lt;!&ndash;            <th:block th:each="showTime : ${showTimes}">&ndash;&gt;-->
+<!--&lt;!&ndash;                <option th:value="${showTime.id}" th:text="${showTime.startTime} - ${showTime.hall.name}"></option>&ndash;&gt;-->
+<!--&lt;!&ndash;            </th:block>&ndash;&gt;-->
+<!--&lt;!&ndash;        </select>&ndash;&gt;-->
+<!--&lt;!&ndash;    </div>&ndash;&gt;-->
+
+<!--&lt;!&ndash;    &lt;!&ndash; Submit Button &ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;    <div>&ndash;&gt;-->
+<!--&lt;!&ndash;        <button type="submit">Add Ticket</button>&ndash;&gt;-->
+<!--&lt;!&ndash;    </div>&ndash;&gt;-->
+
+<!--&lt;!&ndash;    &lt;!&ndash; Вывод интерактивных мест &ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;    <div>&ndash;&gt;-->
+<!--&lt;!&ndash;        <h2>Available Seats</h2>&ndash;&gt;-->
+<!--&lt;!&ndash;        <div id="seats-container" style="display: grid; grid-template-columns: repeat(10, 40px); gap: 10px;">&ndash;&gt;-->
+<!--&lt;!&ndash;            <th:block th:each="seat : ${seats}">&ndash;&gt;-->
+<!--&lt;!&ndash;                <button type="button"&ndash;&gt;-->
+<!--&lt;!&ndash;                        th:id="'seat-' + ${seat.number}"&ndash;&gt;-->
+<!--&lt;!&ndash;                        th:disabled="${seat.occupied}"&ndash;&gt;-->
+<!--&lt;!&ndash;                        th:class="${seat.occupied ? 'seat occupied' : 'seat available'}"&ndash;&gt;-->
+<!--&lt;!&ndash;                        th:text="${seat.number}"&ndash;&gt;-->
+<!--&lt;!&ndash;                        onclick="selectSeat(${seat.number})"></button>&ndash;&gt;-->
+<!--&lt;!&ndash;            </th:block>&ndash;&gt;-->
+<!--&lt;!&ndash;        </div>&ndash;&gt;-->
+<!--&lt;!&ndash;        <input type="hidden" id="seatNumber" name="seatNumber">&ndash;&gt;-->
+<!--&lt;!&ndash;    </div>&ndash;&gt;-->
+
+<!--&lt;!&ndash;    <script>&ndash;&gt;-->
+<!--&lt;!&ndash;        // Выбор места&ndash;&gt;-->
+<!--&lt;!&ndash;        function selectSeat(seatNumber) {&ndash;&gt;-->
+<!--&lt;!&ndash;            document.getElementById('seatNumber').value = seatNumber;&ndash;&gt;-->
+<!--&lt;!&ndash;            alert('You selected seat: ' + seatNumber);&ndash;&gt;-->
+<!--&lt;!&ndash;        }&ndash;&gt;-->
+<!--&lt;!&ndash;    </script>&ndash;&gt;-->
+<!--&lt;!&ndash;</form>&ndash;&gt;-->
+<!--&lt;!&ndash;</body>&ndash;&gt;-->
+<!--&lt;!&ndash;</html>&ndash;&gt;-->
+
+
 <!--<!DOCTYPE html>-->
 <!--<html lang="en">-->
 <!--<head>-->
 <!--    <meta charset="UTF-8">-->
 <!--    <meta name="viewport" content="width=device-width, initial-scale=1.0">-->
 <!--    <title>Add Ticket</title>-->
-<!--    <link rel="stylesheet" href="styles.css"> &lt;!&ndash; Подключение CSS при необходимости &ndash;&gt;-->
 <!--</head>-->
-<!--<style>-->
-<!--    #seats-container {-->
-<!--        display: grid;-->
-<!--        grid-template-columns: repeat(10, 40px); /* 10 мест в ряду */-->
-<!--        gap: 10px;-->
-<!--    }-->
-
-<!--    .seat {-->
-<!--        width: 40px;-->
-<!--        height: 40px;-->
-<!--        border: 1px solid #ccc;-->
-<!--        border-radius: 4px;-->
-<!--        cursor: pointer;-->
-<!--        text-align: center;-->
-<!--        line-height: 40px;-->
-<!--    }-->
-
-<!--    .seat.available {-->
-<!--        background-color: #4caf50; /* Зеленый цвет для доступных мест */-->
-<!--        color: white;-->
-<!--    }-->
-
-<!--    .seat.occupied {-->
-<!--        background-color: #f44336; /* Красный цвет для занятых мест */-->
-<!--        color: white;-->
-<!--        cursor: not-allowed;-->
-<!--    }-->
-<!--</style>-->
 <!--<body>-->
 <!--<h1>Add Ticket</h1>-->
-<!--<form action="/tickets/add" method="post">-->
-<!--    &lt;!&ndash; Seat Number &ndash;&gt;-->
-<!--&lt;!&ndash;    <div>&ndash;&gt;-->
-<!--&lt;!&ndash;        <label for="seatNumber">Seat Number:</label>&ndash;&gt;-->
-<!--&lt;!&ndash;        <input type="number" id="seatNumber" name="seatNumber" required>&ndash;&gt;-->
-<!--&lt;!&ndash;    </div>&ndash;&gt;-->
+<!--<form action="/admin/addTicket" method="post">-->
+<!--    &lt;!&ndash; Seat Selection &ndash;&gt;-->
+<!--    <label for="seatId">Seat:</label>-->
+<!--    <select id="seatId" name="seatId" required>-->
+<!--        <option value="" disabled selected>Select a seat</option>-->
+<!--        <th:block th:each="seat : ${seats}">-->
+<!--            <option th:value="${seat.id}" th:text="'Seat ' + ${seat.number} + (seat.occupied ? ' (Occupied)' : ' (Available)')"></option>-->
+<!--        </th:block>-->
+<!--    </select>-->
 
 <!--    &lt;!&ndash; User Selection &ndash;&gt;-->
-<!--    <div>-->
-<!--        <label for="userId">User:</label>-->
-<!--        <select id="userId" name="userId" required>-->
-<!--            <option value="" disabled selected>Select a user</option>-->
-<!--            <th:block th:each="user : ${users}">-->
-<!--                <option th:value="${user.id}" th:text="${user.name}"></option>-->
-<!--            </th:block>-->
-<!--        </select>-->
-<!--    </div>-->
+<!--    <label for="userId">User:</label>-->
+<!--    <select id="userId" name="userId" required>-->
+<!--        <option value="" disabled selected>Select a user</option>-->
+<!--        <th:block th:each="user : ${users}">-->
+<!--            <option th:value="${user.id}" th:text="${user.name}"></option>-->
+<!--        </th:block>-->
+<!--    </select>-->
 
 <!--    &lt;!&ndash; Show Time Selection &ndash;&gt;-->
-<!--    <div>-->
-<!--        <label for="showTimeId">Show Time:</label>-->
-<!--        <select id="showTimeId" name="showTimeId" required>-->
-<!--            <option value="" disabled selected>Select a show time</option>-->
-<!--            <th:block th:each="showTime : ${showTimes}">-->
-<!--                <option th:value="${showTime.id}" th:text="${showTime.startTime} - ${showTime.hall.name}"></option>-->
-<!--            </th:block>-->
-<!--        </select>-->
-<!--    </div>-->
+<!--    <label for="showTimeId">Show Time:</label>-->
+<!--    <select id="showTimeId" name="showTimeId" required>-->
+<!--        <option value="" disabled selected>Select a show time</option>-->
+<!--        <th:block th:each="showTime : ${showTimes}">-->
+<!--            <option th:value="${showTime.id}" th:text="${showTime.startTime}"></option>-->
+<!--        </th:block>-->
+<!--    </select>-->
 
-<!--    &lt;!&ndash; Submit Button &ndash;&gt;-->
-<!--    <div>-->
-<!--        <button type="submit">Add Ticket</button>-->
-<!--    </div>-->
-
-<!--    &lt;!&ndash; Вывод интерактивных мест &ndash;&gt;-->
-<!--    <div>-->
-<!--        <h2>Available Seats</h2>-->
-<!--        <div id="seats-container" style="display: grid; grid-template-columns: repeat(10, 40px); gap: 10px;">-->
-<!--            <th:block th:each="seat : ${seats}">-->
-<!--                <button type="button"-->
-<!--                        th:id="'seat-' + ${seat.number}"-->
-<!--                        th:disabled="${seat.occupied}"-->
-<!--                        th:class="${seat.occupied ? 'seat occupied' : 'seat available'}"-->
-<!--                        th:text="${seat.number}"-->
-<!--                        onclick="selectSeat(${seat.number})"></button>-->
-<!--            </th:block>-->
-<!--        </div>-->
-<!--        <input type="hidden" id="seatNumber" name="seatNumber">-->
-<!--    </div>-->
-
-<!--    <script>-->
-<!--        // Выбор места-->
-<!--        function selectSeat(seatNumber) {-->
-<!--            document.getElementById('seatNumber').value = seatNumber;-->
-<!--            alert('You selected seat: ' + seatNumber);-->
-<!--        }-->
-<!--    </script>-->
+<!--    <button type="submit">Add Ticket</button>-->
 <!--</form>-->
 <!--</body>-->
 <!--</html>-->
 
+<!--        <thead>-->
+<!--        <tr>-->
+<!--            <th>Место</th>-->
+<!--            <th>Статус</th>-->
+<!--            <th>Действие</th>-->
+<!--        </tr>-->
+<!--        </thead>-->
+<!--        <tbody>-->
+<!--        <tr th:each="ticket : ${availableTickets}">-->
+<!--            <td th:text="${ticket.seatNumber}"></td>-->
+<!--            <td th:text="${ticket.isPurchased ? 'Занято' : 'Доступно'}"></td>-->
+<!--            <td>-->
+<!--                <form th:if="${!ticket.isPurchased}" th:action="@{/tickets/purchaseTicket}" method="post">-->
+<!--                    <input type="hidden" name="ticketId" th:value="${ticket.id}">-->
+<!--                    <button type="submit" class="btn btn-success">Купить</button>-->
+<!--                </form>-->
+<!--                <button th:if="${ticket.isPurchased}" class="btn btn-secondary" disabled>Занято</button>-->
+<!--            </td>-->
+<!--        </tr>-->
+<!--        </tbody>-->
+
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add Ticket</title>
+    <title>Выбор билета</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css">
 </head>
 <body>
-<h1>Add Ticket</h1>
-<form action="/admin/addTicket" method="post">
-    <!-- Seat Selection -->
-    <label for="seatId">Seat:</label>
-    <select id="seatId" name="seatId" required>
-        <option value="" disabled selected>Select a seat</option>
-        <th:block th:each="seat : ${seats}">
-            <option th:value="${seat.id}" th:text="'Seat ' + ${seat.number} + (seat.occupied ? ' (Occupied)' : ' (Available)')"></option>
-        </th:block>
-    </select>
+<div class="container mt-5">
+    <h2>Выберите билет для сеанса</h2>
+    <p>Ниже отображены доступные билеты для выбранного сеанса.</p>
+    <div class="container mt-3">
+        <div th:if="${message}" class="alert alert-info" role="alert">
+            <p th:text="${message}"></p>
+        </div>
+    </div>
+    <table class="table">
 
-    <!-- User Selection -->
-    <label for="userId">User:</label>
-    <select id="userId" name="userId" required>
-        <option value="" disabled selected>Select a user</option>
-        <th:block th:each="user : ${users}">
-            <option th:value="${user.id}" th:text="${user.name}"></option>
-        </th:block>
-    </select>
+        <form th:action="@{/tickets/purchaseTickets}" method="post">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>Выбрать</th>
+                    <th>Место</th>
+                    <th>Статус</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="ticket : ${availableTickets}">
+                    <td>
+                        <input type="checkbox" name="ticketIds" th:value="${ticket.id}" th:disabled="${ticket.isPurchased}">
+                    </td>
+                    <td th:text="${ticket.seatNumber}"></td>
+                    <td th:text="${ticket.isPurchased ? 'Занято' : 'Доступно'}"></td>
+                </tr>
+                </tbody>
+            </table>
+            <button type="submit" class="btn btn-success mt-3">Купить выбранные места</button>
+        </form>
+    </table>
 
-    <!-- Show Time Selection -->
-    <label for="showTimeId">Show Time:</label>
-    <select id="showTimeId" name="showTimeId" required>
-        <option value="" disabled selected>Select a show time</option>
-        <th:block th:each="showTime : ${showTimes}">
-            <option th:value="${showTime.id}" th:text="${showTime.startTime}"></option>
-        </th:block>
-    </select>
+</div>
 
-    <button type="submit">Add Ticket</button>
-</form>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

@@ -160,6 +160,13 @@
 <body>
 <div class="container my-5">
   <h2 class="text-center mb-4">Панель Админа</h2>
+  <!-- Success and Warning Messages -->
+  <div th:if="${warning}" class="alert alert-warning">
+    <p th:text="${warning}"></p>
+  </div>
+  <div th:if="${success}" class="alert alert-success">
+    <p th:text="${success}"></p>
+  </div>
 
   <!-- Аккордеон для добавления кинотеатра, зала и фильма -->
   <div class="accordion" id="adminAccordion">

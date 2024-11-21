@@ -27,4 +27,6 @@ public interface ShowTimeService {
 
     ShowTime findByMovieAndHallAndStartTime(Movie movie, Hall hall, Time time);
     ShowTime prepareShowTimeData(Long movieId, Long hallId, String startTime, double price);
+
+    boolean isTimeSlotOccupied(Long hallId, Time time, int duration);
 }

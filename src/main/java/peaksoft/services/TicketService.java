@@ -16,5 +16,6 @@ public interface TicketService {
     List<Ticket> getTicketsByUserId(Long userId);
     void updateTicket(Long id, Ticket updatedTicket);
     void deleteTicket(Long id);
-    void purchaseTicket(Long ticketId, User user);
+    boolean purchaseTickets(List<Long> ticketIds, User user);
+    List<Ticket> getAvailableTicketsForShowTime(Long showTimeId);
 }
