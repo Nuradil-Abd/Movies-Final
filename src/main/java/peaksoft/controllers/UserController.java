@@ -68,7 +68,7 @@ public class UserController {
     @PostMapping("/saveCard")
     public String signup(@RequestParam("userId") Long userId, @ModelAttribute("card") Card card) {
         User user = userService.findById(userId);
-
+        user.setCard(card);
         card.setUser(user);
 
         cardService.saveCard(card);

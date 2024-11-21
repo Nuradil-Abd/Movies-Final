@@ -178,8 +178,13 @@
         <div th:if="${message}" class="alert alert-info" role="alert">
             <p th:text="${message}"></p>
         </div>
+        <div>
+            <p>Цена билета для выбранного сеанса: <span th:text="${showTimePrice}"></span> руб.</p>
+            <p>Ваш баланс на карте: <span th:text="${currentBalance}"></span> руб.</p>
+        </div>
     </div>
     <table class="table">
+
 
         <form th:action="@{/tickets/purchaseTickets}" method="post">
             <table class="table">

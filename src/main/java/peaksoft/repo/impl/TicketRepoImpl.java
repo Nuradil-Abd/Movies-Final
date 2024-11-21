@@ -4,10 +4,7 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Repository;
-import peaksoft.entity.Hall;
-import peaksoft.entity.ShowTime;
-import peaksoft.entity.Ticket;
-import peaksoft.entity.User;
+import peaksoft.entity.*;
 import peaksoft.repo.TicketRepo;
 
 import java.util.List;
@@ -75,24 +72,68 @@ public class TicketRepoImpl implements TicketRepo {
 
     }
 
+//    public boolean purchaseTickets(List<Long> ticketIds, User user) {
+//
+//        List<Ticket> tickets = entityManager.createQuery("SELECT t FROM Ticket t WHERE t.id IN :ticketIds", Ticket.class)
+//                .setParameter("ticketIds", ticketIds)
+//                .getResultList();
+//
+//        boolean allPurchased = true;
+//        for (Ticket ticket : tickets) {
+//            if (ticket != null && !ticket.isPurchased()) {
+//                ticket.setUser(user);
+//                ticket.setPurchased(true);
+//                entityManager.merge(ticket);
+//            } else {
+//                allPurchased = false;
+//            }
+//        }
+//        return allPurchased;
+//    }
+
     public boolean purchaseTickets(List<Long> ticketIds, User user) {
 
+        // Получаем список билетов по их id
         List<Ticket> tickets = entityManager.createQuery("SELECT t FROM Ticket t WHERE t.id IN :ticketIds", Ticket.class)
                 .setParameter("ticketIds", ticketIds)
                 .getResultList();
 
+        if (tickets.isEmpty()) {
+            return false;
+        }
+
+        ShowTime showTime = tickets.get(0).getShowTime();
+        double totalPrice = 0;
+
+        for (Ticket ticket : tickets) {
+            if (!ticket.isPurchased()) {
+                totalPrice += showTime.getPrice();
+            }
+        }
+
+        Card card = user.getCard();
+        if (card == null || card.getBalance() < totalPrice) {
+            return false;
+        }
+
+        card.setBalance(card.getBalance() - totalPrice);
+        entityManager.merge(card);
+
         boolean allPurchased = true;
         for (Ticket ticket : tickets) {
-            if (ticket != null && !ticket.isPurchased()) {
+            if (!ticket.isPurchased()) {
                 ticket.setUser(user);
                 ticket.setPurchased(true);
                 entityManager.merge(ticket);
             } else {
-                allPurchased = false; 
+                allPurchased = false;
             }
         }
+
         return allPurchased;
     }
+
+
     public List<Ticket> getAvailableTicketsForShowTime(Long showTimeId) {
         return entityManager.createQuery(
                         "SELECT t FROM Ticket t WHERE t.showTime.id = :showTimeId AND t.isPurchased = false", Ticket.class)
