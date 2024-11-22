@@ -35,18 +35,20 @@ public String selectTicket(@PathVariable Long showTimeId, Model model, HttpSessi
     if (currentUser == null) {
         return "redirect:/users/getSignIn";
     }
+    List<Ticket> allTickets = ticketService.getTicketsByShowTimeId(showTimeId);
 
-    List<Ticket> availableTickets = ticketService.getAvailableTicketsForShowTime(showTimeId);
+//    List<Ticket> availableTickets = ticketService.getAvailableTicketsForShowTime(showTimeId);
 
     ShowTime showTime = showTimeService.findShowTimeById(showTimeId);
     session.setAttribute("showTimeId", showTimeId);
 
     model.addAttribute("showTimeId", showTimeId);
-    model.addAttribute("availableTickets", availableTickets);
+    model.addAttribute("allTickets", allTickets);
+//    model.addAttribute("availableTickets", availableTickets);
     model.addAttribute("currentBalance", currentUser.getCard().getBalance());
     model.addAttribute("showTimePrice", showTime.getPrice());
 
-    Map<Integer, List<Ticket>> ticketsByRow = availableTickets.stream()
+    Map<Integer, List<Ticket>> ticketsByRow = allTickets.stream()
             .collect(Collectors.groupingBy(Ticket::getRowNumber, TreeMap::new, Collectors.toList()));
 
     model.addAttribute("ticketsByRow", ticketsByRow);

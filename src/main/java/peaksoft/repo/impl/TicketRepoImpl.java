@@ -93,7 +93,6 @@ public class TicketRepoImpl implements TicketRepo {
 
     public boolean purchaseTickets(List<Long> ticketIds, User user) {
 
-        // Получаем список билетов по их id
         List<Ticket> tickets = entityManager.createQuery("SELECT t FROM Ticket t WHERE t.id IN :ticketIds", Ticket.class)
                 .setParameter("ticketIds", ticketIds)
                 .getResultList();

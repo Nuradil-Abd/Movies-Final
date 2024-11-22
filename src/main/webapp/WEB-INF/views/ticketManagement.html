@@ -1,61 +1,5 @@
 
 
-
-<!--<!DOCTYPE html>-->
-<!--<html lang="ru">-->
-<!--<head>-->
-<!--    <meta charset="UTF-8">-->
-<!--    <meta name="viewport" content="width=device-width, initial-scale=1.0">-->
-<!--    <title>Выбор билета</title>-->
-<!--    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css">-->
-<!--</head>-->
-<!--<body>-->
-<!--<div class="container mt-5">-->
-<!--    <h2>Выберите билет для сеанса</h2>-->
-<!--    <p>Ниже отображены доступные билеты для выбранного сеанса.</p>-->
-<!--    <div class="container mt-3">-->
-<!--        <div th:if="${message}" class="alert alert-info" role="alert">-->
-<!--            <p th:text="${message}"></p>-->
-<!--        </div>-->
-<!--        <div>-->
-<!--            <p>Цена билета для выбранного сеанса: <span th:text="${showTimePrice}"></span> руб.</p>-->
-<!--            <p>Ваш баланс на карте: <span th:text="${currentBalance}"></span> руб.</p>-->
-<!--        </div>-->
-<!--    </div>-->
-<!--    <table class="table">-->
-
-
-<!--        <form th:action="@{/tickets/purchaseTickets}" method="post">-->
-<!--            <table class="table">-->
-<!--                <thead>-->
-<!--                <tr>-->
-<!--                    <th>Выбрать</th>-->
-<!--                    <th>Место</th>-->
-<!--                    <th>Статус</th>-->
-<!--                </tr>-->
-<!--                </thead>-->
-<!--                <tbody>-->
-<!--                <tr th:each="ticket : ${availableTickets}">-->
-<!--                    <td>-->
-<!--                        <input type="checkbox" name="ticketIds" th:value="${ticket.id}" th:disabled="${ticket.isPurchased}">-->
-<!--                    </td>-->
-<!--                    <td th:text="${ticket.seatNumber}"></td>-->
-<!--                    <td th:text="${ticket.isPurchased ? 'Занято' : 'Доступно'}"></td>-->
-<!--                </tr>-->
-<!--                </tbody>-->
-<!--            </table>-->
-<!--            <button type="submit" class="btn btn-success mt-3">Купить выбранные места</button>-->
-<!--        </form>-->
-<!--    </table>-->
-
-<!--</div>-->
-
-
-<!--<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>-->
-<!--</body>-->
-<!--</html>-->
-
-
 <!--<!DOCTYPE html>-->
 <!--<html lang="ru">-->
 <!--<head>-->
@@ -80,6 +24,9 @@
 <!--            background-color: #d9534f; /* Красный */-->
 <!--            cursor: not-allowed;-->
 <!--        }-->
+<!--        .seat.selected {-->
+<!--            background-color: #0275d8; /* Синий */-->
+<!--        }-->
 <!--        .seat:hover:not(.taken) {-->
 <!--            background-color: #4cae4c;-->
 <!--        }-->
@@ -93,7 +40,7 @@
 <!--<body>-->
 <!--<div class="container mt-5">-->
 <!--    <h2>Схема зала</h2>-->
-<!--    <p>Выберите места. Занятые места отмечены красным, доступные — зелёным.</p>-->
+<!--    <p>Выберите места. Занятые места отмечены красным, доступные — зелёным. Выбранные вами места будут отмечены синим.</p>-->
 <!--    <form th:action="@{/tickets/purchaseTickets}" method="post">-->
 <!--        <div th:each="rowEntry : ${ticketsByRow}">-->
 <!--            <div class="row">-->
@@ -110,10 +57,25 @@
 <!--        <button type="submit" class="btn btn-success mt-3">Купить выбранные места</button>-->
 <!--    </form>-->
 <!--</div>-->
+<!--<script>-->
+<!--    document.addEventListener('DOMContentLoaded', () => {-->
+<!--        const seats = document.querySelectorAll('.seat input[type="checkbox"]');-->
+
+<!--        seats.forEach(seat => {-->
+<!--            seat.addEventListener('change', (event) => {-->
+<!--                const seatDiv = event.target.closest('.seat');-->
+<!--                if (event.target.checked) {-->
+<!--                    seatDiv.classList.add('selected'); // Добавить синий цвет-->
+<!--                } else {-->
+<!--                    seatDiv.classList.remove('selected'); // Убрать синий цвет-->
+<!--                }-->
+<!--            });-->
+<!--        });-->
+<!--    });-->
+<!--</script>-->
 <!--<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>-->
 <!--</body>-->
 <!--</html>-->
-
 
 <!DOCTYPE html>
 <html lang="ru">
@@ -133,7 +95,7 @@
             cursor: pointer;
         }
         .seat.available {
-            background-color: #5cb85c; /* Зелёный */
+            background-color: #5cb85c; /* Зеленый */
         }
         .seat.taken {
             background-color: #d9534f; /* Красный */
@@ -172,6 +134,7 @@
         <button type="submit" class="btn btn-success mt-3">Купить выбранные места</button>
     </form>
 </div>
+
 <script>
     document.addEventListener('DOMContentLoaded', () => {
         const seats = document.querySelectorAll('.seat input[type="checkbox"]');
@@ -188,6 +151,7 @@
         });
     });
 </script>
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
