@@ -22,6 +22,10 @@ public class Ticket {
     @Column(name = "seat_number", nullable = false)
     int seatNumber;
 
+    @Column(name = "row_number")
+    private Integer rowNumber;
+
+
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;

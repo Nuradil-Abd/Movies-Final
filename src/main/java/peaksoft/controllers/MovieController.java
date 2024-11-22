@@ -50,6 +50,7 @@ public class MovieController {
     public String getShowTimesForMovie(@PathVariable Long movieId, Model model) {
 
         Movie movie = movieService.findMovieById(movieId);
+        MovieInfo mi = movie.getMovieInfo();
         List<Cinema> cinemas = cinemaService.getCinemasForMovie(movieId);
         for (Cinema cinema : cinemas) {
             List<Hall> hallsForMovie = hallService.getHallsWithShowTimesForMovie(movieId, cinema.getId());
@@ -60,9 +61,10 @@ public class MovieController {
             }
             cinema.setHalls(hallsForMovie);
         }
-
+        
         model.addAttribute("movie", movie);
         model.addAttribute("cinemas", cinemas);
+        model.addAttribute("movieInfo", mi);
 
         return "showTimes";
     }

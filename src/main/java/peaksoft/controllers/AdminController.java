@@ -91,6 +91,7 @@ public class AdminController {
         hall.setCinema(cinema);
 
 
+
         hallService.saveHall(hall);
         redirectAttributes.addFlashAttribute("success", "Зал успешно добавлен!");
 

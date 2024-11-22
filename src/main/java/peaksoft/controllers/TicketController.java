@@ -14,7 +14,10 @@ import peaksoft.services.ShowTimeService;
 import peaksoft.services.TicketService;
 import peaksoft.services.UserService;
 
+import java.util.TreeMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/tickets")
@@ -42,6 +45,11 @@ public String selectTicket(@PathVariable Long showTimeId, Model model, HttpSessi
     model.addAttribute("availableTickets", availableTickets);
     model.addAttribute("currentBalance", currentUser.getCard().getBalance());
     model.addAttribute("showTimePrice", showTime.getPrice());
+
+    Map<Integer, List<Ticket>> ticketsByRow = availableTickets.stream()
+            .collect(Collectors.groupingBy(Ticket::getRowNumber, TreeMap::new, Collectors.toList()));
+
+    model.addAttribute("ticketsByRow", ticketsByRow);
 
     return "ticketManagement";
 }
@@ -73,7 +81,7 @@ public String selectTicket(@PathVariable Long showTimeId, Model model, HttpSessi
         return "redirect:/tickets/selectTicket/" + session.getAttribute("showTimeId");
     }
 
-    
+
 
     @PostMapping("/create")
     public ResponseEntity<String> createTicket(
