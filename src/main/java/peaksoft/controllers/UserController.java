@@ -1,5 +1,6 @@
 package peaksoft.controllers;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -34,9 +35,15 @@ public class UserController {
     }
 
     @GetMapping("/getSignIn")
-    public String showSignInForm() {
+    public String showSignInForm(HttpServletRequest request, HttpSession session) {
+        String referer = request.getHeader("Referer");
+        if (referer == null) {
+            referer = request.getRequestURL().toString();
+        }
+        session.setAttribute("redirectUrl", referer);
         return "signIn";
     }
+
     @GetMapping("/success")
     public String showLoginForm() {
         return "signup-success";
@@ -48,15 +55,20 @@ public class UserController {
         System.out.println("Email: " + email);
         System.out.println("Password: " + password);
 
-
         User authenticatedUser = userService.authenticate(email, password);
         if (authenticatedUser != null) {
             session.setAttribute("currentUser", authenticatedUser);
+            String redirectUrl = (String) session.getAttribute("redirectUrl");
 
             if (authenticatedUser.getRole() == Role.ADMIN) {
                 return "redirect:/admin";
-            } else if (authenticatedUser.getRole() == Role.USER) {
-                return "redirect:/movies";
+            }
+            else if (authenticatedUser.getRole() == Role.USER) {
+                if (redirectUrl != null) {
+                    return "redirect:" + redirectUrl;
+                } else {
+                    return "redirect:/movies";
+                }
             }
             return "redirect:/errorPage";
         } else {
@@ -87,7 +99,7 @@ public class UserController {
     public String homePage(HttpSession session, Model model) {
         User currentUser = (User) session.getAttribute("currentUser");
         model.addAttribute("user", currentUser);
-        return "index"; 
+        return "index";
     }
 
 }
