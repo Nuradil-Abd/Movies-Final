@@ -290,7 +290,7 @@
         <td><img th:src="${cinema.imageLogo}" alt="Логотип" style="width: 180px; height: 50px; object-fit: cover;"></td>
         <td th:text="${cinema.name}"></td>
         <td>
-          <form action="/admin/deleteCinema" method="post" style="display: inline;">
+          <form action="/delete/deleteCinema" method="post" style="display: inline;">
             <input type="hidden" name="cinemaId" th:value="${cinema.id}">
             <button type="submit" class="btn btn-danger btn-sm">Удалить</button>
           </form>
@@ -321,7 +321,7 @@
         <td th:text="${hall.countOfSeats}"></td>
         <td th:text="${hall.cinema.name}"></td>
         <td>
-          <form action="/admin/deleteHall" method="post" style="display: inline;">
+          <form action="/delete/deleteHall" method="post" style="display: inline;">
             <input type="hidden" name="hallId" th:value="${hall.id}">
             <button type="submit" class="btn btn-danger btn-sm">Удалить</button>
           </form>

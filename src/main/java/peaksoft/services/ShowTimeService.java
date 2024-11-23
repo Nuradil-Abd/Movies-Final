@@ -29,4 +29,8 @@ public interface ShowTimeService {
     ShowTime prepareShowTimeData(Long movieId, Long hallId, String startTime, double price);
 
     boolean isTimeSlotOccupied(Long hallId, Time time, int duration);
+
+    boolean hasShowTimesInHall(Long hallId);
+
+    void deleteShowTimeWithTickets(Long showTimeId);
 }

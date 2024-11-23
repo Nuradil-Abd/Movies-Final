@@ -3,15 +3,9 @@ package peaksoft.services.impl;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-import peaksoft.entity.Cinema;
-import peaksoft.entity.Hall;
-import peaksoft.entity.Movie;
-import peaksoft.entity.ShowTime;
+import peaksoft.entity.*;
 import peaksoft.repo.ShowTimeRepo;
-import peaksoft.services.CinemaService;
-import peaksoft.services.HallService;
-import peaksoft.services.MovieService;
-import peaksoft.services.ShowTimeService;
+import peaksoft.services.*;
 
 import java.sql.Time;
 import java.time.LocalTime;
@@ -26,6 +20,7 @@ public class ShowTimeServiceImpl implements ShowTimeService {
     private final MovieService movieService;
     private final HallService hallService;
     private final CinemaService cinemaService;
+    private final TicketService ticketService;
 
 
     public List<ShowTime> getAllShowTimes() {
@@ -108,5 +103,24 @@ public class ShowTimeServiceImpl implements ShowTimeService {
             }
         }
         return false;
+    }
+
+    @Override
+    public boolean hasShowTimesInHall(Long hallId) {
+        return showTimeRepository.hasShowTimesInHall(hallId);
+    }
+
+    @Override
+    public void deleteShowTimeWithTickets(Long showTimeId) {
+//        ticketService.deleteByShowTimeId(showTimeId);
+//
+//        showTimeRepository.deleteById(showTimeId);
+        ShowTime showTime = showTimeRepository.findById(showTimeId);
+
+        List<Ticket> tickets = ticketService.findByShowTimeId(showTimeId);
+        for (Ticket ticket : tickets) {
+            ticketService.deleteTicket(ticket.getId());
+        }
+        showTimeRepository.deleteById(showTimeId);
     }
 }

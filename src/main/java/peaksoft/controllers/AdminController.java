@@ -72,6 +72,18 @@ public class AdminController {
         return "redirect:/admin";
     }
 
+    @GetMapping("/editCinema")
+    public String editCinema(@RequestParam("cinemaId") Long cinemaId, Model model) {
+        Cinema cinema = cinemaService.getCinemaById(cinemaId);
+        if (cinema == null) {
+            model.addAttribute("error", "Кинотеатр не найден!");
+            return "errorPage";
+        }
+        model.addAttribute("cinema", cinema);
+        return "editCinema";
+
+    }
+
     @GetMapping("/editMovie")
     public String showEditMovieForm(@RequestParam("movieId") Long movieId, Model model) {
         Movie movie = movieService.findMovieById(movieId);
@@ -121,18 +133,6 @@ public class AdminController {
         return "redirect:/admin/addEditMovie";
     }
 
-    @PostMapping("/deleteCinema")
-    public String deleteCinema(@RequestParam("cinemaId") Long cinemaId, RedirectAttributes redirectAttributes) {
-        cinemaService.deleteById(cinemaId);redirectAttributes.addFlashAttribute("success", "Кинотеатр успешно удален!");
-        return "redirect:/admin";
-    }
-
-    @PostMapping("/deleteHall")
-    public String deleteHall(@RequestParam("hallId") Long hallId, RedirectAttributes redirectAttributes) {
-       hallService.deleteHallById(hallId);redirectAttributes.addFlashAttribute("success", "Зал успешно удален!");
-        return "redirect:/admin";
-    }
-
     @PostMapping("/deleteShowTime")
     public String deleteShowTime(@RequestParam Long showTimeId) {
         ShowTime showTime = showTimeService.findShowTimeById(showTimeId);
@@ -180,35 +180,6 @@ public class AdminController {
         return "showTimePageAdmin";
     }
 
-//    @PostMapping("/addShowTime")
-//    public String addShowTime(@RequestParam Long movieId,
-//                              @RequestParam Long hallId,
-//                              @RequestParam String startTime,
-//                              @RequestParam double price) {
-//
-//        Movie movie = movieService.findMovieById(movieId);
-//        Hall hall = hallService.findHallById(hallId);
-//        Cinema cinema = hall.getCinema();
-//
-//        if (!cinema.getMovies().contains(movie)) {
-//            cinema.getMovies().add(movie);
-//            cinemaService.save(cinema);
-//        }
-//
-//        ShowTime existingShowTime = showTimeService.findByMovieAndHallAndStartTime(movie, hall, Time.valueOf(LocalTime.parse(startTime)));
-//        if (existingShowTime != null) {
-//            return "redirect:/admin/showTimePageAdmin?error=duplicateShowTime";
-//        }
-//
-//        ShowTime showTime = new ShowTime();
-//        showTime.setStartTime(Time.valueOf(LocalTime.parse(startTime)));
-//        showTime.setPrice(price);
-//        showTime.setMovie(movie);
-//        showTime.setHall(hall);
-//
-//        showTimeService.saveShowTime(showTime);
-//        return "redirect:/admin/showTimePageAdmin";
-//    }
 
     @PostMapping("/addShowTime")
     public String addShowTime(@RequestParam Long movieId,

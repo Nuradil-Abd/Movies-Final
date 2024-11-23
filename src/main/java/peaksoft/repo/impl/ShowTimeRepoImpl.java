@@ -130,5 +130,14 @@ public class ShowTimeRepoImpl implements ShowTimeRepo {
     }
 
 
+    public boolean hasShowTimesInHall(Long hallId) {
+       
+        String jpql = "SELECT COUNT(st) FROM ShowTime st WHERE st.hall.id = :hallId";
 
+        Long count = (Long) entityManager.createQuery(jpql)
+                .setParameter("hallId", hallId)
+                .getSingleResult();
+
+        return count > 0;
+    }
 }

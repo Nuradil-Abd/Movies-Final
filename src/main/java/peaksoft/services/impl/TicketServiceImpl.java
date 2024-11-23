@@ -74,4 +74,14 @@ public class TicketServiceImpl implements TicketService {
         return ticketRepo.getAvailableTicketsForShowTime(showTimeId);
     }
 
+    @Override
+    public void deleteByShowTimeId(Long showTimeId) {
+        ticketRepo.deleteByShowTimeId(showTimeId);
+    }
+
+    @Override
+    public List<Ticket> findByShowTimeId(Long showTimeId) {
+        return ticketRepo.findShowTimeId(showTimeId);
+    }
+
 }

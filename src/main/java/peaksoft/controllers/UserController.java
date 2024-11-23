@@ -19,7 +19,6 @@ public class UserController {
     private final UserService userService;
     private final CardService cardService;
 
-
     @GetMapping("/getSignup")
     public String showSignUpForm(Model model) {
         model.addAttribute("user", new User());
@@ -48,8 +47,7 @@ public class UserController {
     public String showLoginForm() {
         return "signup-success";
     }
-
-
+    
     @PostMapping("/postSignIn")
     public String signIn(@RequestParam String email, @RequestParam String password, Model model, HttpSession session) {
         System.out.println("Email: " + email);

@@ -74,7 +74,7 @@
       <td th:text="${showTime.movie.movieName}"></td>
       <td th:text="${showTime.hall.name + ' (' + showTime.hall.cinema.name + ')'}"></td>
       <td>
-        <form action="/admin/deleteShowTime" method="post" style="display: inline;">
+        <form action="/delete/deleteShowTime" method="post" style="display: inline;">
           <input type="hidden" name="showTimeId" th:value="${showTime.id}">
           <button type="submit" class="btn btn-danger btn-sm">Удалить</button>
         </form>

@@ -44,7 +44,6 @@ public class TicketRepoImpl implements TicketRepo {
                 .getResultList();
     }
 
-
     @Override
     public List<Ticket> getTicketsByUserId(Long userId) {
         return entityManager.createQuery("select t from Ticket t where t.user.id = :userId", Ticket.class)
@@ -71,25 +70,6 @@ public class TicketRepoImpl implements TicketRepo {
         }
 
     }
-
-//    public boolean purchaseTickets(List<Long> ticketIds, User user) {
-//
-//        List<Ticket> tickets = entityManager.createQuery("SELECT t FROM Ticket t WHERE t.id IN :ticketIds", Ticket.class)
-//                .setParameter("ticketIds", ticketIds)
-//                .getResultList();
-//
-//        boolean allPurchased = true;
-//        for (Ticket ticket : tickets) {
-//            if (ticket != null && !ticket.isPurchased()) {
-//                ticket.setUser(user);
-//                ticket.setPurchased(true);
-//                entityManager.merge(ticket);
-//            } else {
-//                allPurchased = false;
-//            }
-//        }
-//        return allPurchased;
-//    }
 
     public boolean purchaseTickets(List<Long> ticketIds, User user) {
 
@@ -128,7 +108,6 @@ public class TicketRepoImpl implements TicketRepo {
                 allPurchased = false;
             }
         }
-
         return allPurchased;
     }
 
@@ -140,6 +119,21 @@ public class TicketRepoImpl implements TicketRepo {
                 .getResultList();
     }
 
+    @Override
+    public void deleteByShowTimeId(Long showTimeId) {
+        String hql = "DELETE FROM Ticket t WHERE t.showTime.id = :showTimeId";
+        entityManager.createQuery(hql)
+                .setParameter("showTimeId", showTimeId)
+                .executeUpdate();
+    }
+
+    @Override
+    public List<Ticket> findShowTimeId(Long showTimeId) {
+        String jpql = "SELECT t FROM Ticket t WHERE t.showTime.id = :showTimeId";
+        return entityManager.createQuery(jpql, Ticket.class)
+                .setParameter("showTimeId", showTimeId)
+                .getResultList();
+    }
 
 
     @Override
@@ -148,28 +142,21 @@ public class TicketRepoImpl implements TicketRepo {
         User user = entityManager.find(User.class, userId);
         ShowTime showTime = entityManager.find(ShowTime.class, showTimeId);
 
-
         if (user == null) {
             throw new IllegalArgumentException("User with ID " + userId + " not found");
         }
         if (showTime == null) {
             throw new IllegalArgumentException("ShowTime with ID " + showTimeId + " not found");
         }
-
-
         Hall hall = showTime.getHall();
-        List<Ticket> availableTickets = showTime.getTickets(); // Получаем все билеты, привязанные к ShowTime
-
+        List<Ticket> availableTickets = showTime.getTickets();
 
         if (availableTickets.size() >= hall.getCountOfSeats()) {
             throw new IllegalStateException("No available seats in the hall");
         }
-
-
         Ticket ticket = new Ticket();
         ticket.setUser(user);
         ticket.setShowTime(showTime);
-
 
         entityManager.persist(ticket);
     }

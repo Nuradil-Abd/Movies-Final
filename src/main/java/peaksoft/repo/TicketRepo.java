@@ -19,4 +19,7 @@ public interface TicketRepo {
     void createTicket(Long userId, Long showTimeId);
     List<Ticket> getAvailableTicketsForShowTime(Long showTimeId);
 
+    void deleteByShowTimeId(Long showTimeId);
+
+    List<Ticket> findShowTimeId(Long showTimeId);
 }

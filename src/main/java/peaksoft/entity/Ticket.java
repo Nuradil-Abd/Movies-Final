@@ -37,7 +37,7 @@ public class Ticket {
 
 
     @Column(nullable = false)
-    private boolean isPurchased = false; // Статус билета
+    private boolean isPurchased = false;
 
     @PrePersist
     public void prePersist() {

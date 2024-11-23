@@ -27,4 +27,5 @@ public interface ShowTimeRepo {
 
     List<ShowTime> findByCinemaAndMovie(Long cinemaId, Long movieId);
 
+    boolean hasShowTimesInHall(Long hallId);
 }

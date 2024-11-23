@@ -18,4 +18,8 @@ public interface TicketService {
     void deleteTicket(Long id);
     boolean purchaseTickets(List<Long> ticketIds, User user);
     List<Ticket> getAvailableTicketsForShowTime(Long showTimeId);
+
+    void deleteByShowTimeId(Long showTimeId);
+
+    List<Ticket> findByShowTimeId(Long showTimeId);
 }
