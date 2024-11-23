@@ -8,6 +8,7 @@ import peaksoft.entity.Movie;
 import java.util.List;
 
 public interface CinemaRepo {
+    List<Hall> getHallsForMovieInCinema(Long movieId, Long cinemaId);
 
     List<Cinema> getAll();
 

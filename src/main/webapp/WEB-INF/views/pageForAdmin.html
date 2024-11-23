@@ -159,6 +159,12 @@
 </head>
 <body>
 <div class="container my-5">
+
+  <div class="text-end mb-4">
+    <form action="/admin/logout" method="post">
+      <button type="submit" class="btn btn-danger">Выйти</button>
+    </form>
+  </div>
   <h2 class="text-center mb-4">Панель Админа</h2>
   <!-- Success and Warning Messages -->
   <div th:if="${warning}" class="alert alert-warning">

@@ -83,5 +83,11 @@ public class UserController {
         model.addAttribute("user", user);
         return "profile";
     }
+    @GetMapping("/home")
+    public String homePage(HttpSession session, Model model) {
+        User currentUser = (User) session.getAttribute("currentUser");
+        model.addAttribute("user", currentUser);
+        return "index"; 
+    }
 
 }

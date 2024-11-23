@@ -77,6 +77,107 @@
 <!--</body>-->
 <!--</html>-->
 
+
+<!--Не УдАЛяяяяять-->
+<!--<!DOCTYPE html>-->
+<!--<html lang="ru">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <meta name="viewport" content="width=device-width, initial-scale=1.0">-->
+<!--    <title>Схема зала</title>-->
+<!--    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css">-->
+<!--    <style>-->
+<!--        .seat {-->
+<!--            width: 30px;-->
+<!--            height: 30px;-->
+<!--            text-align: center;-->
+<!--            line-height: 30px;-->
+<!--            border: 1px solid #ccc;-->
+<!--            margin: 2px;-->
+<!--            cursor: pointer;-->
+<!--        }-->
+<!--        .seat.available {-->
+<!--            background-color: #5cb85c; /* Зеленый */-->
+<!--        }-->
+<!--        .seat.taken {-->
+<!--            background-color: #d9534f; /* Красный */-->
+<!--            cursor: not-allowed;-->
+<!--        }-->
+<!--        .seat.selected {-->
+<!--            background-color: #0275d8; /* Синий */-->
+<!--        }-->
+<!--        .seat:hover:not(.taken) {-->
+<!--            background-color: #4cae4c;-->
+<!--        }-->
+<!--        .row {-->
+<!--            display: flex;-->
+<!--            justify-content: center;-->
+<!--            margin-bottom: 10px;-->
+<!--        }-->
+<!--    </style>-->
+<!--</head>-->
+<!--<body>-->
+
+<!--<div class="container mt-5">-->
+<!--    <h2>Схема зала</h2>-->
+<!--    <div th:if="${message != null}" class="alert alert-info">-->
+<!--        <span th:text="${message}"></span>-->
+<!--    </div>-->
+<!--    <p>Выберите места. Занятые места отмечены красным, доступные — зелёным. </p>-->
+
+<!--    <form th:action="@{/tickets/purchaseTickets}" method="post">-->
+<!--        <div th:each="rowEntry : ${ticketsByRow}">-->
+<!--            <div class="row">-->
+<!--                <span>Ряд <span th:text="${rowEntry.key}"></span>:</span>-->
+<!--                <div th:each="ticket : ${rowEntry.value}"-->
+<!--                     class="seat"-->
+<!--                     th:classappend="${ticket.isPurchased ? 'taken' : 'available'}">-->
+<!--                    <label>-->
+<!--                        <input type="checkbox"-->
+<!--                               name="ticketIds"-->
+<!--                               th:value="${ticket.id}"-->
+<!--                               th:disabled="${ticket.isPurchased}"-->
+<!--                               style="display: none;">-->
+<!--                        <span th:text="${ticket.seatNumber}"></span>-->
+<!--                    </label>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--        <button type="submit" class="btn btn-success mt-3">Купить выбранные места</button>-->
+<!--    </form>-->
+
+
+<!--    <p th:if="${currentBalance != null}">-->
+<!--        Баланс: <span th:text="${currentBalance}"></span> сом.-->
+<!--    </p>-->
+
+<!--    <p>-->
+<!--        Цена за билет: <span th:text="${showTimePrice}"></span> сом.-->
+<!--    </p>-->
+<!--</div>-->
+
+<!--<script>-->
+<!--    document.addEventListener('DOMContentLoaded', () => {-->
+<!--        const seats = document.querySelectorAll('.seat input[type="checkbox"]');-->
+
+<!--        seats.forEach(seat => {-->
+<!--            seat.addEventListener('change', (event) => {-->
+<!--                const seatDiv = event.target.closest('.seat');-->
+<!--                if (event.target.checked) {-->
+<!--                    seatDiv.classList.add('selected');-->
+<!--                } else {-->
+<!--                    seatDiv.classList.remove('selected');-->
+<!--                }-->
+<!--            });-->
+<!--        });-->
+<!--    });-->
+<!--</script>-->
+
+<!--<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>-->
+<!--</body>-->
+<!--</html>-->
+
+
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -112,20 +213,49 @@
             justify-content: center;
             margin-bottom: 10px;
         }
+        .container {
+            max-width: 800px;
+        }
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .alert {
+            margin-bottom: 20px;
+        }
+        .info-section {
+            margin-top: 20px;
+        }
+        .btn-back {
+            margin-top: 20px;
+        }
     </style>
 </head>
 <body>
+
 <div class="container mt-5">
+    <a th:href="@{/movies/{movieId}/showTimes(movieId=${movieId})}" class="btn btn-secondary btn-back">Назад к сеансам фильма</a>
     <h2>Схема зала</h2>
-    <p>Выберите места. Занятые места отмечены красным, доступные — зелёным. Выбранные вами места будут отмечены синим.</p>
+
+    <div th:if="${message != null}" class="alert alert-info">
+        <span th:text="${message}"></span>
+    </div>
+
+    <p>Выберите места. Занятые места отмечены <span style="color: #d9534f;">красным</span>, доступные — <span style="color: #5cb85c;">зелёным</span>.</p>
+
     <form th:action="@{/tickets/purchaseTickets}" method="post">
         <div th:each="rowEntry : ${ticketsByRow}">
             <div class="row">
                 <span>Ряд <span th:text="${rowEntry.key}"></span>:</span>
-                <div th:each="ticket : ${rowEntry.value}" class="seat"
+                <div th:each="ticket : ${rowEntry.value}"
+                     class="seat"
                      th:classappend="${ticket.isPurchased ? 'taken' : 'available'}">
                     <label>
-                        <input type="checkbox" name="ticketIds" th:value="${ticket.id}" th:disabled="${ticket.isPurchased}" style="display: none;">
+                        <input type="checkbox"
+                               name="ticketIds"
+                               th:value="${ticket.id}"
+                               th:disabled="${ticket.isPurchased}"
+                               style="display: none;">
                         <span th:text="${ticket.seatNumber}"></span>
                     </label>
                 </div>
@@ -133,6 +263,17 @@
         </div>
         <button type="submit" class="btn btn-success mt-3">Купить выбранные места</button>
     </form>
+
+    <div class="info-section">
+        <p th:if="${currentBalance != null}">
+            Баланс: <span th:text="${currentBalance}"></span> сом.
+        </p>
+        <p>
+            Цена за билет: <span th:text="${showTimePrice}"></span> сом.
+        </p>
+    </div>
+
+
 </div>
 
 <script>
@@ -143,9 +284,9 @@
             seat.addEventListener('change', (event) => {
                 const seatDiv = event.target.closest('.seat');
                 if (event.target.checked) {
-                    seatDiv.classList.add('selected'); // Добавить синий цвет
+                    seatDiv.classList.add('selected');
                 } else {
-                    seatDiv.classList.remove('selected'); // Убрать синий цвет
+                    seatDiv.classList.remove('selected');
                 }
             });
         });

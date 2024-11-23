@@ -1,6 +1,7 @@
 package peaksoft.controllers;
 
 import lombok.RequiredArgsConstructor;
+import org.hibernate.Hibernate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -15,10 +16,7 @@ import peaksoft.services.HallService;
 import peaksoft.services.MovieService;
 import peaksoft.services.ShowTimeService;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Controller
@@ -28,7 +26,8 @@ public class CinemasController {
     private final CinemaService cinemaService;
     private final MovieService movieService;
     private final HallService hallService;
-    private final ShowTimeRepo showTimeRepo;
+    private final ShowTimeService showTimeService;
+
 
     @GetMapping()
     public String cinemas(Model model) {
@@ -36,41 +35,32 @@ public class CinemasController {
         model.addAttribute("cinemas", cinemas);
         return "cinemas";
     }
-
     @GetMapping("/{cinemaId}")
     public String cinemaDetails(@PathVariable Long cinemaId, Model model) {
         Cinema cinema = cinemaService.getCinemaById(cinemaId);
+        List<Hall> hallsForCinema = hallService.findByCinemaId(cinemaId);
 
-        List<Movie> movies = cinemaService.getMoviesByCinemaId(cinemaId);
+        Map<Hall, Map<Movie, List<ShowTime>>> hallMoviesMap = new LinkedHashMap<>();
 
-        cinema.getHalls().forEach(hall -> {
-            hall.getShowTimes().size();
-        });
+        for (Hall hall : hallsForCinema) {
+            List<ShowTime> showTimes = hall.getShowTimes();
+            Map<Movie, List<ShowTime>> movieShowTimesMap = new HashMap<>();
 
-        Map<Movie, List<Hall>> movieHallsMap = new HashMap<>();
-        for (Movie movie : movies) {
-
-            List<Hall> hallsForMovie = cinema.getHalls().stream()
-                    .filter(hall -> hall.getShowTimes().stream()
-                            .anyMatch(showTime -> showTime.getMovie().equals(movie) && hall.getCinema().getId().equals(cinemaId)))
-                    .collect(Collectors.toList());
-            movieHallsMap.put(movie, hallsForMovie);
+            for (ShowTime showTime : showTimes) {
+                Movie movie = showTime.getMovie();
+                movieShowTimesMap.computeIfAbsent(movie, k -> new ArrayList<>()).add(showTime);
+            }
+            hallMoviesMap.put(hall, movieShowTimesMap);
         }
 
         model.addAttribute("cinema", cinema);
-        model.addAttribute("movies", movies);
-        model.addAttribute("movieHallsMap", movieHallsMap);
+        model.addAttribute("hallMoviesMap", hallMoviesMap);
+        System.out.println(hallMoviesMap);
 
         return "cinema-details";
     }
-//    @GetMapping("/cinemas/showTimes")
-//    public String getShowTimesForCinemaAndMovie(@RequestParam Long cinemaId,
-//                                                @RequestParam Long movieId,
-//                                                Model model) {
-//        List<ShowTime> showTimes = showTimeRepo.findByCinemaAndMovie(cinemaId, movieId);
-//        model.addAttribute("showTimes", showTimes);
-//        return "partials/showTimesFragment :: showTimes";
-//    }
+
+
 
     @GetMapping("/showTimes")
     public String getShowTimes(@RequestParam("movieId") Long movieId, Model model) {

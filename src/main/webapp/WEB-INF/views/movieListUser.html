@@ -74,7 +74,7 @@
             <p>Duration: <span th:text="${movie.duration} + ' min.'"></span></p>
             <p>Raiting: <span th:text="${movie.ageRating}"></span></p>
           </div>
-          <a class="buy-btn" th:href="@{/movies/buy-ticket/{movieId}(movieId=${movie.id})}">Buy ticket</a>
+          <a th:href="@{/movies/{movieId}/showTimes(movieId=${movie.id})}">Купить билет</a>
         </div>
       </div>
     </div>

@@ -35,4 +35,9 @@ public class Hall {
     @JsonIgnore
     private Cinema cinema;
 
+    @Override
+    public String toString() {
+        return "Hall{id=" + id + ", name='" + name + "'}";
+    }
+
 }

@@ -2,6 +2,7 @@ package peaksoft.repo.impl;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.Query;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Repository;
 import peaksoft.entity.Cinema;
@@ -15,8 +16,29 @@ import java.util.List;
 @Repository
 @Transactional
 public class CinemaRepoImpl implements CinemaRepo {
+    private final EntityManager makeEntityManager;
     @PersistenceContext
     private EntityManager entityManager;
+
+    public CinemaRepoImpl(EntityManager makeEntityManager) {
+        this.makeEntityManager = makeEntityManager;
+    }
+
+    public List<Hall> getHallsForMovieInCinema(Long movieId, Long cinemaId) {
+
+        String jpql = "SELECT h FROM Hall h " +
+                      "JOIN h.cinema c " +
+                      "JOIN h.showTimes st " +
+                      "WHERE c.id = :cinemaId " +
+                      "AND st.movie.id = :movieId";
+
+        List<Hall> targetHalls = entityManager.createQuery(jpql, Hall.class)
+                .setParameter("cinemaId", cinemaId)
+                .setParameter("movieId", movieId)
+                .getResultList();
+        
+        return targetHalls;
+    }
 
 
     @Override

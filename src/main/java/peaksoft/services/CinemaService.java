@@ -8,6 +8,8 @@ import java.sql.Time;
 import java.util.List;
 
 public interface CinemaService {
+    List<Hall> getHallsForMovieInCinema(Long movieId, Long cinemaId);
+
     List<Cinema> getAll();
 
     Cinema getCinemaById(Long cinemaId);

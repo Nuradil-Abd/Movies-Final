@@ -42,30 +42,16 @@ public class ShowTime {
 
     @PrePersist
     public void generateTicketsForShowTime() {
-//        if (this.tickets == null || this.tickets.isEmpty()) {
-//            this.tickets = new ArrayList<>();
-//        }
-//        int seatCount = hall.getCountOfSeats();
-//        int seatsPerRow = 10;
-//        int rowNumber = 1;
-//
-//        for (int i = 1; i <= seatCount; i++) {
-//            if ((i - 1) % seatsPerRow == 0 && i > 1) {
-//                rowNumber++;
-//            }
-//            Ticket ticket = new Ticket();
-//            ticket.setSeatNumber((i - 1) % seatsPerRow + 1);
-//            ticket.setRowNumber(rowNumber);
-//            ticket.setShowTime(this);
-//            this.tickets.add(ticket);
-//        }
+
         if (this.tickets == null || this.tickets.isEmpty()) {
             this.tickets = new ArrayList<>();
         }
-        int rowCount = 12;
+        int rowCount = 8;
         int seatsPerRow = hall.getCountOfSeats() / rowCount;
+        int extraSeats = hall.getCountOfSeats() % rowCount;
         for (int i = 0; i < rowCount; i++) {
-            for (int j = 1; j <= seatsPerRow; j++) {
+            int seatsInRow = seatsPerRow + (i == rowCount - 1 ? extraSeats : 0);
+            for (int j = 1; j <= seatsInRow; j++) {
                 Ticket ticket = new Ticket();
                 ticket.setRowNumber(i + 1);
                 ticket.setSeatNumber(j);
@@ -73,5 +59,10 @@ public class ShowTime {
                 this.tickets.add(ticket);
             }
         }
+    }
+
+    @Override
+    public String toString() {
+        return "ShowTime{id=" + id + ", startTime=" + startTime + "HAllID = "+ hall + " price=" + price + "}";
     }
 }

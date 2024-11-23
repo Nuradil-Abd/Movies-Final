@@ -14,6 +14,7 @@ import peaksoft.services.ShowTimeService;
 import peaksoft.services.TicketService;
 import peaksoft.services.UserService;
 
+import java.util.Comparator;
 import java.util.TreeMap;
 import java.util.List;
 import java.util.Map;
@@ -41,15 +42,18 @@ public String selectTicket(@PathVariable Long showTimeId, Model model, HttpSessi
 
     ShowTime showTime = showTimeService.findShowTimeById(showTimeId);
     session.setAttribute("showTimeId", showTimeId);
-
+    model.addAttribute("movieId", showTime.getMovie().getId());
     model.addAttribute("showTimeId", showTimeId);
     model.addAttribute("allTickets", allTickets);
 //    model.addAttribute("availableTickets", availableTickets);
     model.addAttribute("currentBalance", currentUser.getCard().getBalance());
     model.addAttribute("showTimePrice", showTime.getPrice());
 
+
     Map<Integer, List<Ticket>> ticketsByRow = allTickets.stream()
             .collect(Collectors.groupingBy(Ticket::getRowNumber, TreeMap::new, Collectors.toList()));
+
+    ticketsByRow.forEach((row, tickets) -> tickets.sort(Comparator.comparing(Ticket::getSeatNumber)));
 
     model.addAttribute("ticketsByRow", ticketsByRow);
 
@@ -57,11 +61,12 @@ public String selectTicket(@PathVariable Long showTimeId, Model model, HttpSessi
 }
 
     @PostMapping("/purchaseTickets")
-    public String purchaseTicket(@RequestParam List<Long> ticketIds, HttpSession session, RedirectAttributes redirectAttributes) {
+    public String purchaseTicket(@RequestParam(required = false) List<Long> ticketIds, HttpSession session, RedirectAttributes redirectAttributes) {
         User currentUser = (User) session.getAttribute("currentUser");
         if (currentUser == null) {
             return "redirect:/users/getSignIn";
         }
+
         if (ticketIds == null || ticketIds.isEmpty()) {
             redirectAttributes.addFlashAttribute("message", "Вы ничего не выбрали.");
             return "redirect:/tickets/selectTicket/" + session.getAttribute("showTimeId");

@@ -1,5 +1,6 @@
 package peaksoft.controllers;
 
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -42,6 +43,13 @@ public class AdminController {
 //        model.addAttribute("movieInfo", new MovieInfo());
         return "pageForAdmin";
     }
+    @PostMapping("/logout")
+    public String logout(HttpSession session) {
+
+        session.invalidate();
+
+        return "redirect:/movies";
+    }
 
 
     @PostMapping("/addMovie")
@@ -83,15 +91,10 @@ public class AdminController {
     @PostMapping("/addHall")
     public String addHall(@RequestParam String name, @RequestParam int countOfSeats, @RequestParam Long cinemaId, RedirectAttributes redirectAttributes) {
         Cinema cinema = cinemaService.getCinemaById(cinemaId);
-
-
         Hall hall = new Hall();
         hall.setName(name);
         hall.setCountOfSeats(countOfSeats);
         hall.setCinema(cinema);
-
-
-
         hallService.saveHall(hall);
         redirectAttributes.addFlashAttribute("success", "Зал успешно добавлен!");
 

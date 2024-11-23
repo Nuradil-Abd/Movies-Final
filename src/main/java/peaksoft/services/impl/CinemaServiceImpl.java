@@ -21,6 +21,11 @@ public class CinemaServiceImpl implements CinemaService {
 
 
     @Override
+    public List<Hall> getHallsForMovieInCinema(Long movieId, Long cinemaId) {
+        return cinemaRepo.getHallsForMovieInCinema(movieId, cinemaId);
+    }
+
+    @Override
     public List<Cinema> getAll() {
         return cinemaRepo.getAll() ;
     }
