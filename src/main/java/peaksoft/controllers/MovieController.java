@@ -1,5 +1,6 @@
 package peaksoft.controllers;
 
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -26,7 +27,10 @@ public class MovieController {
     private final HallService hallService;
 
     @GetMapping
-    public String index(Model model) {
+    public String index(Model model, HttpSession session) {
+        User currentUser = (User) session.getAttribute("currentUser");
+        model.addAttribute("currentUser", currentUser);
+        
         List<Movie> moviesForToday = movieService.getMoviesForToday();
         System.out.println("Фильмов на сегодня: " + moviesForToday.size());
         model.addAttribute("moviesForToday", moviesForToday);

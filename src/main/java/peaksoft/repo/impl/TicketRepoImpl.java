@@ -46,7 +46,9 @@ public class TicketRepoImpl implements TicketRepo {
 
     @Override
     public List<Ticket> getTicketsByUserId(Long userId) {
-        return entityManager.createQuery("select t from Ticket t where t.user.id = :userId", Ticket.class)
+
+        return entityManager.createQuery(
+                        "select t from Ticket t where t.user.id = :userId and t.isPurchased ", Ticket.class)
                 .setParameter("userId", userId)
                 .getResultList();
     }

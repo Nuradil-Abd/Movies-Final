@@ -7,10 +7,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import peaksoft.entity.Card;
+import peaksoft.entity.Ticket;
 import peaksoft.entity.User;
 import peaksoft.enums.Role;
 import peaksoft.services.CardService;
+import peaksoft.services.TicketService;
 import peaksoft.services.UserService;
+
+import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
@@ -18,6 +22,7 @@ import peaksoft.services.UserService;
 public class UserController {
     private final UserService userService;
     private final CardService cardService;
+    private final TicketService ticketService;
 
     @GetMapping("/getSignup")
     public String showSignUpForm(Model model) {
@@ -76,13 +81,14 @@ public class UserController {
     }
 
     @PostMapping("/saveCard")
-    public String signup(@RequestParam("userId") Long userId, @ModelAttribute("card") Card card) {
+    public String signup(@RequestParam("userId") Long userId, @ModelAttribute("card") Card card,HttpSession session) {
         User user = userService.findById(userId);
+        session.setAttribute("currentUser", user);
         user.setCard(card);
         card.setUser(user);
 
         cardService.saveCard(card);
-        return "redirect:/users/success";
+        return "redirect:/movies";
     }
     @GetMapping("/profile")
     public String profile(HttpSession session, Model model) {
@@ -91,8 +97,11 @@ public class UserController {
             return "redirect:/signIn";
         }
         model.addAttribute("user", user);
+        List<Ticket> purchasedTickets = ticketService.getTicketsByUserId(user.getId());
+        model.addAttribute("purchasedTickets", purchasedTickets);
         return "profile";
     }
+    
     @GetMapping("/home")
     public String homePage(HttpSession session, Model model) {
         User currentUser = (User) session.getAttribute("currentUser");
