@@ -45,6 +45,12 @@
 </head>
 <body>
 <div class="container my-5">
+    <div th:if="${warning}" class="alert alert-warning">
+        <p th:text="${warning}"></p>
+    </div>
+    <div th:if="${success}" class="alert alert-success">
+        <p th:text="${success}"></p>
+    </div>
 
     <section class="mb-4">
         <a href="/admin" class="btn btn-warning">Перейти в Панель Админа</a>
@@ -83,7 +89,7 @@
                                         <option value="ACTION">Экшн</option>
                                         <option value="COMEDY">Комедия</option>
                                         <option value="DRAMA">Драма</option>
-                                        <option value="FANTASY">Фэнтези</option>
+<!--                                        <option value="FANTASY">Фэнтези</option>-->
                                         <option value="HORROR">Ужасы</option>
                                         <option value="ROMANCE">Романтика</option>
                                         <option value="THRILLER">Триллер</option>

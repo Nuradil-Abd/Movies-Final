@@ -36,6 +36,8 @@ public String selectTicket(@PathVariable Long showTimeId, Model model, HttpSessi
     if (currentUser == null) {
         return "redirect:/users/getSignIn";
     }
+
+    model.addAttribute("currentUser", currentUser);
     List<Ticket> allTickets = ticketService.getTicketsByShowTimeId(showTimeId);
 
 //    List<Ticket> availableTickets = ticketService.getAvailableTicketsForShowTime(showTimeId);

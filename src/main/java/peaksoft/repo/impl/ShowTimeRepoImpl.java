@@ -54,23 +54,35 @@ public class ShowTimeRepoImpl implements ShowTimeRepo {
     public void save(ShowTime showTime) {
 
         if (showTime.getId() == null) {
-
+            // Новый объект ShowTime: сохраняем Movie и Hall, если их нет в контексте
             Movie managedMovie = entityManager.merge(showTime.getMovie());
             Hall managedHall = entityManager.merge(showTime.getHall());
 
-
             Cinema cinema = managedHall.getCinema();
             if (!managedMovie.getCinemas().contains(cinema)) {
-                managedMovie.getCinemas().add(cinema);
+                managedMovie.getCinemas().add(cinema);  // добавляем в список кинотеатров фильма
             }
 
-
+            // Обновляем ссылки на Movie и Hall в объекте ShowTime
             showTime.setMovie(managedMovie);
             showTime.setHall(managedHall);
+
+            // Сохраняем новый ShowTime
             entityManager.persist(showTime);
         } else {
 
-            entityManager.merge(showTime);
+            ShowTime existingShowTime = entityManager.find(ShowTime.class, showTime.getId());
+            if (existingShowTime != null) {
+
+                existingShowTime.setMovie(showTime.getMovie());
+                existingShowTime.setHall(showTime.getHall());
+                existingShowTime.setStartTime(showTime.getStartTime());
+                existingShowTime.setPrice(showTime.getPrice());
+
+                entityManager.merge(existingShowTime);
+            } else {
+                throw new IllegalArgumentException("ShowTime с таким ID не найден.");
+            }
         }
     }
 

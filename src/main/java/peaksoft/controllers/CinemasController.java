@@ -1,15 +1,13 @@
 package peaksoft.controllers;
 
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.Hibernate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import peaksoft.entity.Cinema;
+import peaksoft.entity.*;
 
-import peaksoft.entity.Hall;
-import peaksoft.entity.Movie;
-import peaksoft.entity.ShowTime;
 import peaksoft.repo.ShowTimeRepo;
 import peaksoft.services.CinemaService;
 import peaksoft.services.HallService;
@@ -30,13 +28,20 @@ public class CinemasController {
 
 
     @GetMapping()
-    public String cinemas(Model model) {
+    public String cinemas(Model model, HttpSession session) {
+        User currentUser = (User) session.getAttribute("currentUser");
+        model.addAttribute("currentUser", currentUser);
         List<Cinema> cinemas = cinemaService.getAll();
         model.addAttribute("cinemas", cinemas);
         return "cinemas";
     }
     @GetMapping("/{cinemaId}")
-    public String cinemaDetails(@PathVariable Long cinemaId, Model model) {
+    public String cinemaDetails(@PathVariable Long cinemaId, Model model, HttpSession session) {
+        User user = (User) session.getAttribute("currentUser");
+//        if (user == null) {
+//            return "redirect:/signIn";
+//        }
+        model.addAttribute("currentUser", user);
         Cinema cinema = cinemaService.getCinemaById(cinemaId);
         List<Hall> hallsForCinema = hallService.findByCinemaId(cinemaId);
 
@@ -63,7 +68,12 @@ public class CinemasController {
 
 
     @GetMapping("/showTimes")
-    public String getShowTimes(@RequestParam("movieId") Long movieId, Model model) {
+    public String getShowTimes(@RequestParam("movieId") Long movieId, Model model, HttpSession session) {
+        User user = (User) session.getAttribute("currentUser");
+        if (user == null) {
+            return "redirect:/signIn";
+        }
+        model.addAttribute("currentUser", user);
 
         Movie movie = movieService.findMovieById(movieId);
 
@@ -76,33 +86,6 @@ public class CinemasController {
 
         return "movieShowTimes";
     }
-//    @GetMapping("/{cinemaId}/halls")
-//    public String cinemaHalls(@PathVariable Long cinemaId, @RequestParam("movieId") Long movieId, Model model) {
-//        Cinema cinema = cinemaService.getCinemaById(cinemaId);
-//        List<Hall> halls = hallService.getHallsWithShowTimesForMovie(movieId);
-//        model.addAttribute("cinema", cinema);
-//        model.addAttribute("halls", halls);
-//        return "cinema-halls"; // Страница с залами для выбранного фильма
-//    }
-//
-//    @GetMapping("/hallsWithShowTimes")
-//    public String getHallsWithShowTimes(@RequestParam("movieId") Long movieId, Model model) {
-//        List<Hall> halls = hallService.getHallsWithShowTimesForMovie(movieId);
-//        model.addAttribute("halls", halls);
-//        return "partials/hallsWithShowTimes";
-//    }
-
-
-
-//    @GetMapping("/cinema/{cinemaId}/halls")
-//    public String getCinemaHalls(@PathVariable Long cinemaId, Model model) {
-//        Cinema cinema = cinemaService.getCinemaById(cinemaId);
-//        List<Hall> halls = hallService.findByCinemaId(cinemaId);
-//        model.addAttribute("cinema", cinema);
-//        model.addAttribute("halls", halls);
-//        return "cinema-halls";
-//    }
-
 
 
 }

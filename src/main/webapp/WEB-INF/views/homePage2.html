@@ -1,6 +1,447 @@
 
 
 
+<!--&lt;!&ndash;<!DOCTYPE html>&ndash;&gt;-->
+<!--&lt;!&ndash;<html lang="ru">&ndash;&gt;-->
+<!--&lt;!&ndash;<head>&ndash;&gt;-->
+<!--&lt;!&ndash;    <meta charset="UTF-8">&ndash;&gt;-->
+<!--&lt;!&ndash;    <meta name="viewport" content="width=device-width, initial-scale=1.0">&ndash;&gt;-->
+<!--&lt;!&ndash;    <title>Кинотеатр</title>&ndash;&gt;-->
+<!--&lt;!&ndash;    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">&ndash;&gt;-->
+<!--&lt;!&ndash;    <style>&ndash;&gt;-->
+<!--&lt;!&ndash;        body {&ndash;&gt;-->
+<!--&lt;!&ndash;            background-color: #f8f9fa;&ndash;&gt;-->
+<!--&lt;!&ndash;        }&ndash;&gt;-->
+<!--&lt;!&ndash;        .navbar {&ndash;&gt;-->
+<!--&lt;!&ndash;            margin-bottom: 20px;&ndash;&gt;-->
+<!--&lt;!&ndash;        }&ndash;&gt;-->
+<!--&lt;!&ndash;        .carousel-inner img {&ndash;&gt;-->
+<!--&lt;!&ndash;            width: 100%;&ndash;&gt;-->
+<!--&lt;!&ndash;            max-height: 300px; /* Ограничиваем высоту изображений */&ndash;&gt;-->
+<!--&lt;!&ndash;            object-fit: cover; /* Обеспечиваем, чтобы изображение покрывало область без искажений */&ndash;&gt;-->
+<!--&lt;!&ndash;        }&ndash;&gt;-->
+<!--&lt;!&ndash;        .movies-section {&ndash;&gt;-->
+<!--&lt;!&ndash;            display: flex;&ndash;&gt;-->
+<!--&lt;!&ndash;            flex-direction: column;&ndash;&gt;-->
+<!--&lt;!&ndash;            align-items: center;&ndash;&gt;-->
+<!--&lt;!&ndash;            padding: 20px;&ndash;&gt;-->
+<!--&lt;!&ndash;        }&ndash;&gt;-->
+<!--&lt;!&ndash;        .movies-title {&ndash;&gt;-->
+<!--&lt;!&ndash;            font-size: 28px;&ndash;&gt;-->
+<!--&lt;!&ndash;            font-weight: bold;&ndash;&gt;-->
+<!--&lt;!&ndash;            margin-bottom: 20px;&ndash;&gt;-->
+<!--&lt;!&ndash;            color: #333;&ndash;&gt;-->
+<!--&lt;!&ndash;        }&ndash;&gt;-->
+<!--&lt;!&ndash;        .movie-grid {&ndash;&gt;-->
+<!--&lt;!&ndash;            display: grid;&ndash;&gt;-->
+<!--&lt;!&ndash;            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));&ndash;&gt;-->
+<!--&lt;!&ndash;            gap: 20px;&ndash;&gt;-->
+<!--&lt;!&ndash;            width: 100%;&ndash;&gt;-->
+<!--&lt;!&ndash;            max-width: 1200px;&ndash;&gt;-->
+<!--&lt;!&ndash;        }&ndash;&gt;-->
+<!--&lt;!&ndash;        .movie-card {&ndash;&gt;-->
+<!--&lt;!&ndash;            display: flex;&ndash;&gt;-->
+<!--&lt;!&ndash;            flex-direction: column;&ndash;&gt;-->
+<!--&lt;!&ndash;            justify-content: space-between;&ndash;&gt;-->
+<!--&lt;!&ndash;            border: 1px solid #ddd;&ndash;&gt;-->
+<!--&lt;!&ndash;            border-radius: 10px;&ndash;&gt;-->
+<!--&lt;!&ndash;            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);&ndash;&gt;-->
+<!--&lt;!&ndash;            overflow: hidden;&ndash;&gt;-->
+<!--&lt;!&ndash;            transition: transform 0.3s, box-shadow 0.3s;&ndash;&gt;-->
+<!--&lt;!&ndash;            text-decoration: none;&ndash;&gt;-->
+<!--&lt;!&ndash;            color: inherit;&ndash;&gt;-->
+<!--&lt;!&ndash;            background-color: #fff;&ndash;&gt;-->
+<!--&lt;!&ndash;            height: 100%;&ndash;&gt;-->
+<!--&lt;!&ndash;        }&ndash;&gt;-->
+
+<!--&lt;!&ndash;        .movie-card:hover {&ndash;&gt;-->
+<!--&lt;!&ndash;            transform: scale(1.05);&ndash;&gt;-->
+<!--&lt;!&ndash;            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);&ndash;&gt;-->
+<!--&lt;!&ndash;        }&ndash;&gt;-->
+
+<!--&lt;!&ndash;        .movie-card img {&ndash;&gt;-->
+<!--&lt;!&ndash;            width: 100%;&ndash;&gt;-->
+<!--&lt;!&ndash;            height: 300px;&ndash;&gt;-->
+<!--&lt;!&ndash;            object-fit: cover;&ndash;&gt;-->
+<!--&lt;!&ndash;        }&ndash;&gt;-->
+
+<!--&lt;!&ndash;        .movie-card:hover img {&ndash;&gt;-->
+<!--&lt;!&ndash;            transform: scale(1.1);&ndash;&gt;-->
+<!--&lt;!&ndash;        }&ndash;&gt;-->
+
+<!--&lt;!&ndash;        .movie-info {&ndash;&gt;-->
+<!--&lt;!&ndash;            padding: 15px;&ndash;&gt;-->
+<!--&lt;!&ndash;            text-align: center;&ndash;&gt;-->
+<!--&lt;!&ndash;        }&ndash;&gt;-->
+<!--&lt;!&ndash;        .movie-info h5 {&ndash;&gt;-->
+<!--&lt;!&ndash;            font-size: 18px;&ndash;&gt;-->
+<!--&lt;!&ndash;            margin-top: 10px;&ndash;&gt;-->
+<!--&lt;!&ndash;            font-weight: bold;&ndash;&gt;-->
+<!--&lt;!&ndash;            color: #555;&ndash;&gt;-->
+<!--&lt;!&ndash;        }&ndash;&gt;-->
+<!--&lt;!&ndash;        .movie-info p {&ndash;&gt;-->
+<!--&lt;!&ndash;            font-size: 14px;&ndash;&gt;-->
+<!--&lt;!&ndash;            color: #777;&ndash;&gt;-->
+<!--&lt;!&ndash;            margin: 5px 0;&ndash;&gt;-->
+<!--&lt;!&ndash;        }&ndash;&gt;-->
+<!--&lt;!&ndash;        .buy-ticket-btn {&ndash;&gt;-->
+<!--&lt;!&ndash;            margin-top: auto;&ndash;&gt;-->
+<!--&lt;!&ndash;            padding: 15px;&ndash;&gt;-->
+<!--&lt;!&ndash;            background-color: #007bff;&ndash;&gt;-->
+<!--&lt;!&ndash;            color: white;&ndash;&gt;-->
+<!--&lt;!&ndash;            text-align: center;&ndash;&gt;-->
+<!--&lt;!&ndash;            font-weight: bold;&ndash;&gt;-->
+<!--&lt;!&ndash;            text-transform: uppercase;&ndash;&gt;-->
+<!--&lt;!&ndash;        }&ndash;&gt;-->
+<!--&lt;!&ndash;        .buy-ticket-btn:hover {&ndash;&gt;-->
+<!--&lt;!&ndash;            background-color: #0056b3;&ndash;&gt;-->
+<!--&lt;!&ndash;        }&ndash;&gt;-->
+<!--&lt;!&ndash;        .buy-ticket-btn a {&ndash;&gt;-->
+<!--&lt;!&ndash;            color: white;&ndash;&gt;-->
+<!--&lt;!&ndash;            text-decoration: none;&ndash;&gt;-->
+<!--&lt;!&ndash;        }&ndash;&gt;-->
+
+<!--&lt;!&ndash;        .buy-ticket-btn a:hover {&ndash;&gt;-->
+<!--&lt;!&ndash;            text-decoration: underline;&ndash;&gt;-->
+<!--&lt;!&ndash;        }&ndash;&gt;-->
+<!--&lt;!&ndash;    </style>&ndash;&gt;-->
+<!--&lt;!&ndash;</head>&ndash;&gt;-->
+<!--&lt;!&ndash;<body>&ndash;&gt;-->
+<!--&lt;!&ndash;<nav class="navbar navbar-expand-lg navbar-dark bg-dark">&ndash;&gt;-->
+<!--&lt;!&ndash;    <div class="container-fluid">&ndash;&gt;-->
+<!--&lt;!&ndash;        <a class="navbar-brand" href="/">Кинотеатр</a>&ndash;&gt;-->
+<!--&lt;!&ndash;        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Переключить навигацию">&ndash;&gt;-->
+<!--&lt;!&ndash;            <span class="navbar-toggler-icon"></span>&ndash;&gt;-->
+<!--&lt;!&ndash;        </button>&ndash;&gt;-->
+<!--&lt;!&ndash;        <div class="collapse navbar-collapse" id="navbarNav">&ndash;&gt;-->
+<!--&lt;!&ndash;            <ul class="navbar-nav ms-auto">&ndash;&gt;-->
+<!--&lt;!&ndash;                <li class="nav-item">&ndash;&gt;-->
+<!--&lt;!&ndash;                    <a class="nav-link" href="/cinemas">Кинотеатры</a>&ndash;&gt;-->
+<!--&lt;!&ndash;                </li>&ndash;&gt;-->
+<!--&lt;!&ndash;                <li class="nav-item">&ndash;&gt;-->
+<!--&lt;!&ndash;                    <a class="nav-link" href="/movies">Фильмы</a>&ndash;&gt;-->
+<!--&lt;!&ndash;                </li><li class="nav-item">&ndash;&gt;-->
+<!--&lt;!&ndash;                    <a class="nav-link" href="/movies">Dolby Atmos</a>&ndash;&gt;-->
+<!--&lt;!&ndash;                </li><li class="nav-item">&ndash;&gt;-->
+<!--&lt;!&ndash;                    <a class="nav-link" href="/movies">IMAX</a>&ndash;&gt;-->
+<!--&lt;!&ndash;                </li>&ndash;&gt;-->
+<!--&lt;!&ndash;                <li class="nav-item" th:if="${currentUser != null}">&ndash;&gt;-->
+<!--&lt;!&ndash;                    <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">&ndash;&gt;-->
+<!--&lt;!&ndash;                        Привет, <span th:text="${currentUser.name}">Имя пользователя</span>&ndash;&gt;-->
+<!--&lt;!&ndash;                    </a>&ndash;&gt;-->
+<!--&lt;!&ndash;                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">&ndash;&gt;-->
+<!--&lt;!&ndash;                        <li><a class="dropdown-item" href="/users/profile">Профиль</a></li>&ndash;&gt;-->
+<!--&lt;!&ndash;                        <li><hr class="dropdown-divider"></li>&ndash;&gt;-->
+<!--&lt;!&ndash;                        <li>&ndash;&gt;-->
+<!--&lt;!&ndash;                            <form th:action="@{/admin/logout}" method="post">&ndash;&gt;-->
+<!--&lt;!&ndash;                                <button type="submit" class="dropdown-item">Выйти</button>&ndash;&gt;-->
+<!--&lt;!&ndash;                            </form>&ndash;&gt;-->
+<!--&lt;!&ndash;                        </li>&ndash;&gt;-->
+<!--&lt;!&ndash;                    </ul>&ndash;&gt;-->
+<!--&lt;!&ndash;                </li>&ndash;&gt;-->
+<!--&lt;!&ndash;                <li class="nav-item" th:if="${currentUser == null}">&ndash;&gt;-->
+<!--&lt;!&ndash;                    <a class="nav-link" href="/users/getSignIn">Войти</a>&ndash;&gt;-->
+<!--&lt;!&ndash;                </li>&ndash;&gt;-->
+<!--&lt;!&ndash;            </ul>&ndash;&gt;-->
+<!--&lt;!&ndash;        </div>&ndash;&gt;-->
+<!--&lt;!&ndash;    </div>&ndash;&gt;-->
+<!--&lt;!&ndash;</nav>&ndash;&gt;-->
+
+<!--&lt;!&ndash;<div id="featuredMoviesCarousel" class="carousel slide mb-5" data-bs-ride="carousel">&ndash;&gt;-->
+<!--&lt;!&ndash;    <div class="carousel-inner">&ndash;&gt;-->
+<!--&lt;!&ndash;        &lt;!&ndash; Добавляем элементы карусели через Thymeleaf &ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;        <div th:each="movie, iterStat : ${movies}" class="carousel-item" th:classappend="${iterStat.index == 0 ? ' active' : ''}">&ndash;&gt;-->
+<!--&lt;!&ndash;            <a th:href="@{/movies/{movieId}/showTimes(movieId=${movie.id})}">&ndash;&gt;-->
+<!--&lt;!&ndash;                <img th:src="${movie.image}" class="d-block w-100" th:alt="${movie.movieName}">&ndash;&gt;-->
+<!--&lt;!&ndash;                <div class="carousel-caption d-none d-md-block">&ndash;&gt;-->
+<!--&lt;!&ndash;                    <h5 th:text="${movie.movieName}">Название фильма</h5>&ndash;&gt;-->
+<!--&lt;!&ndash;                    <h5 th:text="${movie.releaseDate}">Дата выхода</h5>&ndash;&gt;-->
+<!--&lt;!&ndash;                    <h5 th:text="${movie.movieInfo.country}">Страна</h5>&ndash;&gt;-->
+<!--&lt;!&ndash;                </div>&ndash;&gt;-->
+<!--&lt;!&ndash;            </a>&ndash;&gt;-->
+<!--&lt;!&ndash;        </div>&ndash;&gt;-->
+<!--&lt;!&ndash;    </div>&ndash;&gt;-->
+<!--&lt;!&ndash;    <button class="carousel-control-prev" type="button" data-bs-target="#featuredMoviesCarousel" data-bs-slide="prev">&ndash;&gt;-->
+<!--&lt;!&ndash;        <span class="carousel-control-prev-icon" aria-hidden="true"></span>&ndash;&gt;-->
+<!--&lt;!&ndash;        <span class="visually-hidden">Предыдущий</span>&ndash;&gt;-->
+<!--&lt;!&ndash;    </button>&ndash;&gt;-->
+<!--&lt;!&ndash;    <button class="carousel-control-next" type="button" data-bs-target="#featuredMoviesCarousel" data-bs-slide="next">&ndash;&gt;-->
+<!--&lt;!&ndash;        <span class="carousel-control-next-icon" aria-hidden="true"></span>&ndash;&gt;-->
+<!--&lt;!&ndash;        <span class="visually-hidden">Следующий</span>&ndash;&gt;-->
+<!--&lt;!&ndash;    </button>&ndash;&gt;-->
+<!--&lt;!&ndash;</div>&ndash;&gt;-->
+
+
+<!--&lt;!&ndash;&lt;!&ndash; Главный раздел &ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;<div class="container movies-section">&ndash;&gt;-->
+<!--&lt;!&ndash;    <h2 class="movies-title">Фильмы</h2>&ndash;&gt;-->
+
+<!--&lt;!&ndash;    &lt;!&ndash; Кнопки фильтров &ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;    <div class="d-flex mb-4">&ndash;&gt;-->
+<!--&lt;!&ndash;        <button class="btn btn-primary me-2">Сегодня в кино</button>&ndash;&gt;-->
+<!--&lt;!&ndash;        <button class="btn btn-secondary">Скоро</button>&ndash;&gt;-->
+<!--&lt;!&ndash;    </div>&ndash;&gt;-->
+
+<!--&lt;!&ndash;    &lt;!&ndash; Проверка на пустой список фильмов &ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;    <div th:if="${#lists.isEmpty(movies)}">&ndash;&gt;-->
+<!--&lt;!&ndash;        <p>Фильмы не найдены.</p>&ndash;&gt;-->
+<!--&lt;!&ndash;    </div>&ndash;&gt;-->
+
+<!--&lt;!&ndash;    &lt;!&ndash; Сетка карточек фильмов &ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;    <div class="movie-grid">&ndash;&gt;-->
+<!--&lt;!&ndash;        <div class="movie-card" th:each="movie : ${movies}" th:if="${movie != null}">&ndash;&gt;-->
+<!--&lt;!&ndash;            <div class="movie-info">&ndash;&gt;-->
+<!--&lt;!&ndash;                <img th:src="${movie.image}" alt="Изображение фильма">&ndash;&gt;-->
+<!--&lt;!&ndash;                <h5 th:text="${movie.movieName}"></h5>&ndash;&gt;-->
+<!--&lt;!&ndash;                <p>Жанр: <span th:text="${movie.genre}"></span></p>&ndash;&gt;-->
+<!--&lt;!&ndash;                <p>Продолжительность: <span th:text="${movie.duration} + ' мин.'"></span></p>&ndash;&gt;-->
+<!--&lt;!&ndash;                <p>Рейтинг: <span th:text="${movie.ageRating}"></span></p>&ndash;&gt;-->
+<!--&lt;!&ndash;                <div class="buy-ticket-btn">&ndash;&gt;-->
+<!--&lt;!&ndash;                    <a th:href="@{/movies/{movieId}/showTimes(movieId=${movie.id})}">Купить билет</a>&ndash;&gt;-->
+<!--&lt;!&ndash;                </div>&ndash;&gt;-->
+<!--&lt;!&ndash;            </div>&ndash;&gt;-->
+<!--&lt;!&ndash;        </div>&ndash;&gt;-->
+<!--&lt;!&ndash;    </div>&ndash;&gt;-->
+<!--&lt;!&ndash;</div>&ndash;&gt;-->
+
+<!--&lt;!&ndash;<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>&ndash;&gt;-->
+<!--&lt;!&ndash;</body>&ndash;&gt;-->
+<!--&lt;!&ndash;</html>&ndash;&gt;-->
+
+
+
+<!--<!DOCTYPE html>-->
+<!--<html lang="ru">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <meta name="viewport" content="width=device-width, initial-scale=1.0">-->
+<!--    <title>Кинотеатр</title>-->
+<!--    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">-->
+<!--    <style>-->
+<!--        body {-->
+<!--            background-color: #f8f9fa;-->
+<!--            background-image: url('https://fight-films.info/wp-content/uploads/2024/09/gladimarvel.webp'); /* Замените ссылку на картинку для фона */-->
+<!--            background-size: cover;-->
+<!--            background-position: center;-->
+<!--            background-attachment: fixed;-->
+<!--            color: #fff; /* Белый цвет текста для контраста с фоном */-->
+<!--        }-->
+
+<!--        .navbar {-->
+<!--            margin-bottom: 20px;-->
+<!--            background-color: rgba(0, 0, 0, 0.7); /* Полупрозрачный черный фон для навбара */-->
+<!--        }-->
+
+<!--        .carousel-inner img {-->
+<!--            width: 100%;-->
+<!--            max-height: 300px;-->
+<!--            object-fit: cover;-->
+<!--            border-radius: 10px;-->
+<!--        }-->
+
+<!--        .movies-section {-->
+<!--            display: flex;-->
+<!--            flex-direction: column;-->
+<!--            align-items: center;-->
+<!--            padding: 20px;-->
+<!--            margin-top: 20px;-->
+<!--            background-color: rgba(0, 0, 0, 0.5); /* Тень для улучшения контраста */-->
+<!--            border-radius: 10px;-->
+<!--        }-->
+
+<!--        .movies-title {-->
+<!--            font-size: 32px;-->
+<!--            font-weight: bold;-->
+<!--            margin-bottom: 20px;-->
+<!--            color: #ffd700; /* Золотистый цвет для заголовка */-->
+<!--            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);-->
+<!--        }-->
+
+<!--        .movie-grid {-->
+<!--            display: grid;-->
+<!--            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));-->
+<!--            gap: 20px;-->
+<!--            width: 100%;-->
+<!--            max-width: 1200px;-->
+<!--        }-->
+
+<!--        .movie-card {-->
+<!--            display: flex;-->
+<!--            flex-direction: column;-->
+<!--            justify-content: space-between;-->
+<!--            border: 1px solid #ddd;-->
+<!--            border-radius: 10px;-->
+<!--            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);-->
+<!--            overflow: hidden;-->
+<!--            transition: transform 0.3s, box-shadow 0.3s;-->
+<!--            text-decoration: none;-->
+<!--            color: inherit;-->
+<!--            background-color: #fff;-->
+<!--            height: 100%;-->
+<!--        }-->
+
+<!--        .movie-card:hover {-->
+<!--            transform: scale(1.05);-->
+<!--            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);-->
+<!--        }-->
+
+<!--        .movie-card img {-->
+<!--            width: 100%;-->
+<!--            height: 300px;-->
+<!--            object-fit: cover;-->
+<!--            border-radius: 10px;-->
+<!--        }-->
+
+<!--        .movie-card:hover img {-->
+<!--            transform: scale(1.1);-->
+<!--        }-->
+
+<!--        .movie-info {-->
+<!--            padding: 15px;-->
+<!--            text-align: center;-->
+<!--        }-->
+
+<!--        .movie-info h5 {-->
+<!--            font-size: 18px;-->
+<!--            margin-top: 10px;-->
+<!--            font-weight: bold;-->
+<!--            color: #333;-->
+<!--        }-->
+
+<!--        .movie-info p {-->
+<!--            font-size: 14px;-->
+<!--            color: #777;-->
+<!--            margin: 5px 0;-->
+<!--        }-->
+
+<!--        .buy-ticket-btn {-->
+<!--            margin-top: auto;-->
+<!--            padding: 15px;-->
+<!--            background-color: #007bff;-->
+<!--            color: white;-->
+<!--            text-align: center;-->
+<!--            font-weight: bold;-->
+<!--            text-transform: uppercase;-->
+<!--            border-radius: 5px;-->
+<!--            transition: background-color 0.3s;-->
+<!--        }-->
+
+<!--        .buy-ticket-btn:hover {-->
+<!--            background-color: #0056b3;-->
+<!--        }-->
+
+<!--        .buy-ticket-btn a {-->
+<!--            color: white;-->
+<!--            text-decoration: none;-->
+<!--        }-->
+
+<!--        .buy-ticket-btn a:hover {-->
+<!--            text-decoration: underline;-->
+<!--        }-->
+<!--    </style>-->
+<!--</head>-->
+<!--<body>-->
+<!--<nav class="navbar navbar-expand-lg navbar-dark bg-dark">-->
+<!--    <div class="container-fluid">-->
+<!--        <a class="navbar-brand" href="/">Кинотеатр</a>-->
+<!--        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Переключить навигацию">-->
+<!--            <span class="navbar-toggler-icon"></span>-->
+<!--        </button>-->
+<!--        <div class="collapse navbar-collapse" id="navbarNav">-->
+<!--            <ul class="navbar-nav ms-auto">-->
+<!--                <li class="nav-item">-->
+<!--                    <a class="nav-link" href="/cinemas">Кинотеатры</a>-->
+<!--                </li>-->
+<!--                <li class="nav-item">-->
+<!--                    <a class="nav-link" href="/movies">Фильмы</a>-->
+<!--                </li><li class="nav-item">-->
+<!--                <a class="nav-link" href="/movies">Dolby Atmos</a>-->
+<!--            </li><li class="nav-item">-->
+<!--                <a class="nav-link" href="/movies">IMAX</a>-->
+<!--            </li>-->
+<!--                <li class="nav-item" th:if="${currentUser != null}">-->
+<!--                    <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">-->
+<!--                        Привет, <span th:text="${currentUser.name}">Имя пользователя</span>-->
+<!--                    </a>-->
+<!--                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">-->
+<!--                        <li><a class="dropdown-item" href="/users/profile">Профиль</a></li>-->
+<!--                        <li><hr class="dropdown-divider"></li>-->
+<!--                        <li>-->
+<!--                            <form th:action="@{/admin/logout}" method="post">-->
+<!--                                <button type="submit" class="dropdown-item">Выйти</button>-->
+<!--                            </form>-->
+<!--                        </li>-->
+<!--                    </ul>-->
+<!--                </li>-->
+<!--                <li class="nav-item" th:if="${currentUser == null}">-->
+<!--                    <a class="nav-link" href="/users/getSignIn">Войти</a>-->
+<!--                </li>-->
+<!--            </ul>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</nav>-->
+
+<!--<div id="featuredMoviesCarousel" class="carousel slide mb-5" data-bs-ride="carousel">-->
+<!--    <div class="carousel-inner">-->
+<!--        &lt;!&ndash; Добавляем элементы карусели через Thymeleaf &ndash;&gt;-->
+<!--        <div th:each="movie, iterStat : ${movies}" class="carousel-item" th:classappend="${iterStat.index == 0 ? ' active' : ''}">-->
+<!--            <a th:href="@{/movies/{movieId}/showTimes(movieId=${movie.id})}">-->
+<!--                <img th:src="${movie.image}" class="d-block w-100" th:alt="${movie.movieName}">-->
+<!--                <div class="carousel-caption d-none d-md-block">-->
+<!--                    <h5 th:text="${movie.movieName}">Название фильма</h5>-->
+<!--                    <h5 th:text="${movie.releaseDate}">Дата выхода</h5>-->
+<!--                    <h5 th:text="${movie.movieInfo.country}">Страна</h5>-->
+<!--                </div>-->
+<!--            </a>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--    <button class="carousel-control-prev" type="button" data-bs-target="#featuredMoviesCarousel" data-bs-slide="prev">-->
+<!--        <span class="carousel-control-prev-icon" aria-hidden="true"></span>-->
+<!--        <span class="visually-hidden">Предыдущий</span>-->
+<!--    </button>-->
+<!--    <button class="carousel-control-next" type="button" data-bs-target="#featuredMoviesCarousel" data-bs-slide="next">-->
+<!--        <span class="carousel-control-next-icon" aria-hidden="true"></span>-->
+<!--        <span class="visually-hidden">Следующий</span>-->
+<!--    </button>-->
+<!--</div>-->
+
+<!--&lt;!&ndash; Главный раздел &ndash;&gt;-->
+<!--<div class="container movies-section">-->
+<!--    <h2 class="movies-title">Фильмы</h2>-->
+
+<!--    &lt;!&ndash; Кнопки фильтров &ndash;&gt;-->
+<!--    <div class="d-flex mb-4">-->
+<!--        <button class="btn btn-primary me-2">Сегодня в кино</button>-->
+<!--        <button class="btn btn-secondary">Скоро</button>-->
+<!--    </div>-->
+
+<!--    &lt;!&ndash; Проверка на пустой список фильмов &ndash;&gt;-->
+<!--    <div th:if="${#lists.isEmpty(movies)}">-->
+<!--        <p>Фильмы не найдены.</p>-->
+<!--    </div>-->
+
+<!--    &lt;!&ndash; Сетка карточек фильмов &ndash;&gt;-->
+<!--    <div class="movie-grid">-->
+<!--        <div class="movie-card" th:each="movie : ${movies}" th:if="${movie != null}">-->
+<!--            <div class="movie-info">-->
+<!--                <img th:src="${movie.image}" alt="Изображение фильма">-->
+<!--                <h5 th:text="${movie.movieName}"></h5>-->
+<!--                <p>Жанр: <span th:text="${movie.genre}"></span></p>-->
+<!--                <p>Продолжительность: <span th:text="${movie.duration} + ' мин.'"></span></p>-->
+<!--                <p>Рейтинг: <span th:text="${movie.ageRating}"></span></p>-->
+<!--                <div class="buy-ticket-btn">-->
+<!--                    <a th:href="@{/movies/{movieId}/showTimes(movieId=${movie.id})}">Купить билет</a>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</div>-->
+
+<!--<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>-->
+<!--</body>-->
+<!--</html>-->
+
+
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -11,79 +452,83 @@
     <style>
         body {
             background-color: #f8f9fa;
+            background-image: url('https://click-or-die.ru/app/uploads/2021/06/0000.jpg'); /* Замените ссылку на картинку для фона */
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            color: #fff; /* Белый цвет текста для контраста с фоном */
         }
-        .navbar {
-            margin-bottom: 20px;
+
+        /* Выделение карусели */
+        #featuredMoviesCarousel {
+            margin-bottom: 30px;
+            background-color: rgba(0, 0, 0, 0.6); /* Полупрозрачный черный фон */
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
         }
+
         .carousel-inner img {
             width: 100%;
-            max-height: 300px; /* Ограничиваем высоту изображений */
-            object-fit: cover; /* Обеспечиваем, чтобы изображение покрывало область без искажений */
-        }
-        .movies-section {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 20px;
-        }
-        .movies-title {
-            font-size: 28px;
-            font-weight: bold;
-            margin-bottom: 20px;
-            color: #333;
-        }
-        .movie-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 20px;
-            width: 100%;
-            max-width: 1200px;
-        }
+            max-height: 300px;
+            object-fit: cover;
+            border-radius: 10px;
+        }/* Стили для movie-card */
         .movie-card {
             display: flex;
             flex-direction: column;
             justify-content: space-between;
             border: 1px solid #ddd;
             border-radius: 10px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); /* Легкая тень */
             overflow: hidden;
-            transition: transform 0.3s, box-shadow 0.3s;
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
             text-decoration: none;
             color: inherit;
-            background-color: #fff;
+            background-color: rgba(84, 87, 92, 0.7); /* Полупрозрачный темный фон */
             height: 100%;
         }
 
+
+        /* Эффект наведения на карточку */
         .movie-card:hover {
-            transform: scale(1.05);
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            transform: scale(1.05); /* Легкое увеличение карточки */
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
         }
 
         .movie-card img {
             width: 100%;
             height: 300px;
             object-fit: cover;
+            border-radius: 10px;
         }
 
         .movie-card:hover img {
-            transform: scale(1.1);
+            transform: scale(1.1); /* Эффект увеличения изображения */
         }
 
         .movie-info {
             padding: 15px;
             text-align: center;
         }
+
         .movie-info h5 {
             font-size: 18px;
             margin-top: 10px;
             font-weight: bold;
-            color: #555;
+            color: #fff; /* Белый цвет для текста */
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5); /* Тень для лучшего контраста */
         }
+
         .movie-info p {
             font-size: 14px;
-            color: #777;
+            color: #ddd; /* Светло-серый цвет для других текстов */
             margin: 5px 0;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5); /* Тень для лучшего контраста */
         }
+
+
+
         .buy-ticket-btn {
             margin-top: auto;
             padding: 15px;
@@ -92,10 +537,14 @@
             text-align: center;
             font-weight: bold;
             text-transform: uppercase;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
         }
+
         .buy-ticket-btn:hover {
             background-color: #0056b3;
         }
+
         .buy-ticket-btn a {
             color: white;
             text-decoration: none;
@@ -104,9 +553,38 @@
         .buy-ticket-btn a:hover {
             text-decoration: underline;
         }
+
+        /* Секция фильмов */
+        .movies-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            margin-top: 30px;
+            background-color: rgba(0, 0, 0, 0.5);
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .movies-title {
+            font-size: 32px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: #ffd700;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
+        }
+
+        .movie-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+            width: 100%;
+            max-width: 1200px;
+        }
     </style>
 </head>
 <body>
+
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
         <a class="navbar-brand" href="/">Кинотеатр</a>
@@ -115,22 +593,29 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ms-auto">
-                <!-- Общие ссылки -->
                 <li class="nav-item">
                     <a class="nav-link" href="/cinemas">Кинотеатры</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="/movies">Фильмы</a>
                 </li>
-                <!-- Проверяем авторизацию -->
-                <li class="nav-item dropdown" th:if="${currentUser != null}">
+                <li class="nav-item">
+                    <a class="nav-link" href="/movies">Dolby Atmos</a>
+                </li><li class="nav-item">
+                <a class="nav-link" href="/movies">IMAX</a>
+            </li>
+                <li class="nav-item" th:if="${currentUser != null}">
                     <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         Привет, <span th:text="${currentUser.name}">Имя пользователя</span>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
                         <li><a class="dropdown-item" href="/users/profile">Профиль</a></li>
                         <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item" href="/admin/logout">Выйти</a></li>
+                        <li>
+                            <form th:action="@{/admin/logout}" method="post">
+                                <button type="submit" class="dropdown-item">Выйти</button>
+                            </form>
+                        </li>
                     </ul>
                 </li>
                 <li class="nav-item" th:if="${currentUser == null}">
@@ -140,87 +625,17 @@
         </div>
     </div>
 </nav>
-<!--<nav class="navbar navbar-expand-lg navbar-dark bg-dark">-->
-<!--    <div class="container-fluid">-->
-<!--        <a class="navbar-brand" href="#">Кинотеатр</a>-->
-<!--        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Переключить навигацию">-->
-<!--            <span class="navbar-toggler-icon"></span>-->
-<!--        </button>-->
-<!--        <div class="collapse navbar-collapse" id="navbarNav">-->
-<!--            <ul class="navbar-nav ms-auto mb-2 mb-lg-0">-->
-<!--                <li class="nav-item">-->
-<!--                    <a class="nav-link" href="/cinemas">Кинотеатры</a>-->
-<!--                </li>-->
-<!--                <li class="nav-item">-->
-<!--                    <a class="nav-link" href="/movies">Фильмы</a>-->
-<!--                </li>-->
-<!--                <li class="nav-item">-->
-<!--                    <a class="nav-link" href="#">IMAX</a>-->
-<!--                </li>-->
-<!--                <li class="nav-item">-->
-<!--                    <a class="nav-link" href="#">Dolby Atmos</a>-->
-<!--                </li>-->
-<!--                -->
-<!--                <li class="nav-item">-->
-<!--                    <div th:if="${user != null}">-->
-<!--                        <span class="nav-link">Привет, <span th:text="${user.name}"></span></span>-->
-<!--                        <a class="nav-link" href="/users/logout">Выйти</a>-->
-<!--                    </div>-->
-<!--                    <div th:if="${user == null}">-->
-<!--                        <a class="nav-link" href="/users/getSignIn">Войти</a>-->
-<!--                    </div>-->
-<!--                </li>-->
-<!--            </ul>-->
-<!--        </div>-->
-<!--    </div>-->
-<!--</nav>-->
-<!--      Не удалять -->
-<!--&lt;!&ndash; Navbar &ndash;&gt;-->
-<!--<nav class="navbar navbar-expand-lg navbar-dark bg-dark">-->
-<!--    <div class="container-fluid">-->
-<!--        <a class="navbar-brand" href="#">Кинотеатр</a>-->
-<!--        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Переключить навигацию">-->
-<!--            <span class="navbar-toggler-icon"></span>-->
-<!--        </button>-->
-<!--        <div class="collapse navbar-collapse" id="navbarNav">-->
-<!--            <ul class="navbar-nav me-auto mb-2 mb-lg-0">-->
-<!--                <li class="nav-item"><a class="nav-link active" href="/users/getSignIn">Войти</a></li>-->
-<!--                <li class="nav-item"><a class="nav-link" href="/cinemas">Кинотеатры</a></li>-->
-<!--                <li class="nav-item"><a class="nav-link" href="#">Фильмы</a></li>-->
-<!--                <li class="nav-item"><a class="nav-link" href="#">IMAX</a></li>-->
-<!--                <li class="nav-item"><a class="nav-link" href="#">Dolby Atmos</a></li>-->
-<!--            </ul>-->
-<!--        </div>-->
-<!--    </div>-->
-<!--</nav>-->
 
-<!-- Featured Movies Carousel -->
+<!-- Карусель с фильмами -->
 <div id="featuredMoviesCarousel" class="carousel slide mb-5" data-bs-ride="carousel">
     <div class="carousel-inner">
-        <div class="carousel-item active">
-            <a href="/movies/details/1"> <!-- Link to movie details -->
-                <img src="https://ms1.relax.by/images/20e977928c5e456fb1e69ef5e6546406/thumb/w%3D600%2Ch%3D900%2Cq%3D81/afisha_event_photo/c2/e1/59/c2e15949c83f2e660f8e8ac7504b178b.jpg" class="d-block w-100" alt="Афиша 1">
+        <div th:each="movie, iterStat : ${upcomingMovies}" class="carousel-item" th:classappend="${iterStat.index == 0 ? ' active' : ''}">
+            <a th:href="@{/movies/{movieId}/showTimes(movieId=${movie.id})}">
+                <img th:src="${movie.image}" class="d-block w-100" th:alt="${movie.movieName}">
                 <div class="carousel-caption d-none d-md-block">
-                    <h5>Joker</h5>
-                    <p>Скоро</p>
-                </div>
-            </a>
-        </div>
-        <div class="carousel-item">
-            <a href="/movies/details/2">
-                <img src="https://grodno.in/source/photos/app/b_c291cmNlL3Bob3Rvcy8yMDI0LzA5LzE5L2dyYWYucG5n_250x375_ab03d305f0.png" class="d-block w-100" alt="Афиша 2">
-                <div class="carousel-caption d-none d-md-block">
-                    <h5>Название фильма 2</h5>
-                    <p>Описание фильма 2.</p>
-                </div>
-            </a>
-        </div>
-        <div class="carousel-item">
-            <a href="/movies/details/3">
-                <img src="https://ms1.relax.by/images/20e977928c5e456fb1e69ef5e6546406/thumb/w%3D600%2Ch%3D900%2Cq%3D81/afisha_event_photo/97/12/74/971274608121c00d56853f7a35ea7ca1.jpg" class="d-block w-100" alt="Афиша 3">
-                <div class="carousel-caption d-none d-md-block">
-                    <h5>Название фильма 3</h5>
-                    <p>Описание фильма 3.</p>
+                    <h5 th:text="${movie.movieName}">Название фильма</h5>
+                    <h5 th:text="${movie.releaseDate}">Дата выхода</h5>
+                    <h5 th:text="${movie.movieInfo.country}">Страна</h5>
                 </div>
             </a>
         </div>
@@ -235,30 +650,18 @@
     </button>
 </div>
 
-<!-- Главный раздел -->
+<!-- Основная секция с фильмами -->
 <div class="container movies-section">
     <h2 class="movies-title">Фильмы</h2>
 
-    <!-- Кнопки фильтров -->
-    <div class="d-flex mb-4">
-        <button class="btn btn-primary me-2">Сегодня в кино</button>
-        <button class="btn btn-secondary">Скоро</button>
-    </div>
-
-    <!-- Проверка на пустой список фильмов -->
-    <div th:if="${#lists.isEmpty(movies)}">
-        <p>Фильмы не найдены.</p>
-    </div>
-
-    <!-- Сетка карточек фильмов -->
+    <!-- Сетка фильмов -->
     <div class="movie-grid">
-        <div class="movie-card" th:each="movie : ${movies}" th:if="${movie != null}">
+        <div class="movie-card" th:each="movie : ${movies}">
             <div class="movie-info">
-                <img th:src="${movie.image}" alt="Изображение фильма">
-                <h5 th:text="${movie.movieName}"></h5>
-                <p>Жанр: <span th:text="${movie.genre}"></span></p>
-                <p>Продолжительность: <span th:text="${movie.duration} + ' мин.'"></span></p>
-                <p>Рейтинг: <span th:text="${movie.ageRating}"></span></p>
+                <img th:src="${movie.image}" th:alt="${movie.movieName}" class="card-img-top">
+                <h5 th:text="${movie.movieName}">Название фильма</h5>
+                <p th:text="${movie.movieInfo.country}">Страна</p>
+                <p th:text="${movie.releaseDate}">Дата выпуска</p>
                 <div class="buy-ticket-btn">
                     <a th:href="@{/movies/{movieId}/showTimes(movieId=${movie.id})}">Купить билет</a>
                 </div>
@@ -268,6 +671,7 @@
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
 </body>
 </html>
 

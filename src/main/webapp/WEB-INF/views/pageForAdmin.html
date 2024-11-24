@@ -258,18 +258,18 @@
       </div>
     </div>
 
-    <div class="accordion-item">
-      <h2 class="accordion-header" id="ticketsHeading">
-        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#ticketsCollapse" aria-expanded="false" aria-controls="ticketsCollapse">
-          Редактировать билеты
-        </button>
-      </h2>
-      <div id="ticketsCollapse" class="accordion-collapse collapse" aria-labelledby="ticketsHeading" data-bs-parent="#adminAccordion">
-        <div class="accordion-body">
-          <a href="/admin/ticketManagement" class="btn btn-warning">Перейти к управлению билетами</a>
-        </div>
-      </div>
-    </div>
+<!--    <div class="accordion-item">-->
+<!--      <h2 class="accordion-header" id="ticketsHeading">-->
+<!--        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#ticketsCollapse" aria-expanded="false" aria-controls="ticketsCollapse">-->
+<!--          Редактировать билеты-->
+<!--        </button>-->
+<!--      </h2>-->
+<!--      <div id="ticketsCollapse" class="accordion-collapse collapse" aria-labelledby="ticketsHeading" data-bs-parent="#adminAccordion">-->
+<!--        <div class="accordion-body">-->
+<!--          <a href="/admin/ticketManagement" class="btn btn-warning">Перейти к управлению билетами</a>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--    </div>-->
   </div>
 
   <!-- Таблица кинотеатров -->
@@ -325,7 +325,7 @@
             <input type="hidden" name="hallId" th:value="${hall.id}">
             <button type="submit" class="btn btn-danger btn-sm">Удалить</button>
           </form>
-          <a th:href="@{/admin/editHall(hallId=${hall.id})}" class="btn btn-secondary btn-sm">Редактировать</a>
+<!--          <a th:href="@{/admin/editHall(hallId=${hall.id})}" class="btn btn-secondary btn-sm">Редактировать</a>-->
         </td>
       </tr>
       </tbody>

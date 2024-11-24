@@ -30,7 +30,7 @@ public class MovieController {
     public String index(Model model, HttpSession session) {
         User currentUser = (User) session.getAttribute("currentUser");
         model.addAttribute("currentUser", currentUser);
-        
+
         List<Movie> moviesForToday = movieService.getMoviesForToday();
         System.out.println("Фильмов на сегодня: " + moviesForToday.size());
         model.addAttribute("moviesForToday", moviesForToday);
@@ -45,13 +45,18 @@ public class MovieController {
     }
 
     @GetMapping("/all")
-    public String listMoviesForUser(Model model) {
+    public String listMoviesForUser(Model model, HttpSession session) {
+        User currentUser = (User) session.getAttribute("currentUser");
+        model.addAttribute("currentUser", currentUser);
         List<Movie> movies = movieService.getAllMovies();
         model.addAttribute("movies", movies);
         return "movieListUser";
     }
     @GetMapping("/{movieId}/showTimes")
-    public String getShowTimesForMovie(@PathVariable Long movieId, Model model) {
+    public String getShowTimesForMovie(@PathVariable Long movieId, Model model, HttpSession session) {
+        User currentUser = (User) session.getAttribute("currentUser");
+        model.addAttribute("currentUser", currentUser);
+
 
         Movie movie = movieService.findMovieById(movieId);
         MovieInfo mi = movie.getMovieInfo();
@@ -65,7 +70,7 @@ public class MovieController {
             }
             cinema.setHalls(hallsForMovie);
         }
-        
+
         model.addAttribute("movie", movie);
         model.addAttribute("cinemas", cinemas);
         model.addAttribute("movieInfo", mi);
@@ -86,7 +91,9 @@ public class MovieController {
     }
 
     @GetMapping("/details/{id}")
-    public String getMovieDetails(@PathVariable Long id, Model model) {
+    public String getMovieDetails(@PathVariable Long id, Model model, HttpSession session) {
+        User currentUser = (User) session.getAttribute("currentUser");
+        model.addAttribute("currentUser", currentUser);
         Movie movie = movieService.findMovieById(id);
         if (movie == null) {
             System.out.println("Фильм не найден: " + id);
@@ -97,15 +104,6 @@ public class MovieController {
         return "movieDetails";
     }
 
-    @GetMapping("/details/{id}/buy")
-    public String buyTicket(@PathVariable Long id, Model model) {
-        Movie movie = movieService.findMovieById(id);
-        if (movie == null) {
-            return "redirect:/movies/all";
-        }
-        model.addAttribute("movie", movie);
-        return "buyTicket";
-    }
 
 
 }

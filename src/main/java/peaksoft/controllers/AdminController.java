@@ -125,9 +125,13 @@ public class AdminController {
     }
 
     @PostMapping("/deleteMovie")
-    public String deleteMovie(@RequestParam("movieId") Long movieId) {
+    public String deleteMovie(@RequestParam("movieId") Long movieId, RedirectAttributes redirectAttributes) {
         if (!movieService.existsById(movieId)) {
             throw new IllegalArgumentException("Movie not found: " + movieId);
+        }
+        if (movieService.getShowTimesForMovie(movieId) != null) {
+            redirectAttributes.addFlashAttribute("warning", "Невозможно удалить фильм, так как у него есть связанные сеансы.");
+            return "redirect:/admin/addEditMovie";
         }
         movieService.deleteById(movieId);
         return "redirect:/admin/addEditMovie";
@@ -186,10 +190,27 @@ public class AdminController {
                               @RequestParam Long hallId,
                               @RequestParam String startTime,
                               @RequestParam double price,
+                              @RequestParam(required = false) Long id,
                               Model model) {
 
-        ShowTime showTime = showTimeService.prepareShowTimeData(movieId, hallId, startTime, price);
+        ShowTime showTime = new ShowTime();
 
+        if (id != null) {
+
+            showTime = showTimeService.findShowTimeById(id);
+        }
+
+        if (showTime == null) {
+            showTime = new ShowTime();
+        }
+
+        Movie movieEntity = movieService.findMovieById(movieId);
+        Hall hallEntity = hallService.findHallById(hallId);
+
+        showTime.setMovie(movieEntity);
+        showTime.setHall(hallEntity);
+        showTime.setStartTime(Time.valueOf(LocalTime.parse(startTime)));
+        showTime.setPrice(price);
 
         boolean isTimeSlotTaken = showTimeService.isTimeSlotOccupied(
                 hallId,
@@ -210,6 +231,7 @@ public class AdminController {
         model.addAttribute("halls", hallService.getAllHalls());
         return "showTimePageAdmin";
     }
+
 
 
 }

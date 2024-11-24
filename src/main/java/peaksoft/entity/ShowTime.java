@@ -35,7 +35,7 @@ public class ShowTime {
     @JoinColumn(name = "hall_id")
     private Hall hall;
 
-    @OneToMany(mappedBy = "showTime", cascade = CascadeType.PERSIST, orphanRemoval = true)
+    @OneToMany(mappedBy = "showTime", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Ticket> tickets = new ArrayList<>();
 
 

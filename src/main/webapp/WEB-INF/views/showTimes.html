@@ -129,20 +129,41 @@
 </head>
 <body th:style="'background-image: url(' + ${movie.image} + ');'">
 
-<!-- Navbar -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
-        <a class="navbar-brand" href="#">Кинотеатр</a>
+        <a class="navbar-brand" href="/">Кинотеатр</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Переключить навигацию">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item"><a class="nav-link active" href="/users/getSignIn">Войти</a></li>
-                <li class="nav-item"><a class="nav-link" href="/cinemas">Кинотеатры</a></li>
-                <li class="nav-item"><a class="nav-link" href="/movies">Фильмы</a></li>
-                <li class="nav-item"><a class="nav-link" href="#">IMAX</a></li>
-                <li class="nav-item"><a class="nav-link" href="#">Dolby Atmos</a></li>
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="/cinemas">Кинотеатры</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/movies">Фильмы</a>
+                </li><li class="nav-item">
+                <a class="nav-link" href="/movies">Dolby Atmos</a>
+            </li><li class="nav-item">
+                <a class="nav-link" href="/movies">IMAX</a>
+            </li>
+                <li class="nav-item" th:if="${currentUser != null}">
+                    <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                         <span th:text="${currentUser.name}">Имя пользователя</span>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                        <li><a class="dropdown-item" href="/users/profile">Профиль</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li>
+                            <form th:action="@{/admin/logout}" method="post">
+                                <button type="submit" class="dropdown-item">Выйти</button>
+                            </form>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-item" th:if="${currentUser == null}">
+                    <a class="nav-link" href="/users/getSignIn">Войти</a>
+                </li>
             </ul>
         </div>
     </div>

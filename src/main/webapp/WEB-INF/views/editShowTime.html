@@ -14,13 +14,13 @@
 
   <section class="mb-5">
     <h3>Редактировать сеанс фильма</h3>
-    <form action="/admin/saveShowTime" method="post" th:object="${showTime}" class="mb-4">
+    <form action="/admin/addShowTime" method="post" th:object="${showTime}" class="mb-4">
       <input type="hidden" th:field="*{id}" />
 
       <div class="row g-3">
         <div class="col-md-6">
           <label for="movie" class="form-label">Фильм</label>
-          <select id="movie" name="movie" class="form-select" required>
+          <select id="movie" name="movieId" class="form-select" required>
             <option value="" disabled selected>Выберите фильм</option>
             <option th:each="movie : ${movies}"
                     th:value="${movie.id}"
@@ -31,18 +31,18 @@
 
         <div class="col-md-6">
           <label for="hall" class="form-label">Зал</label>
-          <select id="hall" name="hall" class="form-select" required>
+          <select id="hall" name="hallId" class="form-select" required>
             <option value="" disabled selected>Выберите зал</option>
             <option th:each="hall : ${halls}"
                     th:value="${hall.id}"
-                    th:text="${hall.name}"
+                    th:text="${hall.name +'( ' + hall.cinema.name + ' )'}"
                     th:selected="${hall.id == showTime.hall.id}"></option>
           </select>
         </div>
 
         <div class="col-md-6">
-          <label for="showTime" class="form-label">Время сеанса</label>
-          <input type="time" id="showTime" th:field="*{startTime}" class="form-control" required>
+          <label for="startTime" class="form-label">Время сеанса</label>
+          <input type="time" id="startTime" th:field="*{startTime}" class="form-control" required>
 
         </div>
 
