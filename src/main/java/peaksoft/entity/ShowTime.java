@@ -42,15 +42,21 @@ public class ShowTime {
 
     @PrePersist
     public void generateTicketsForShowTime() {
-
         if (this.tickets == null || this.tickets.isEmpty()) {
             this.tickets = new ArrayList<>();
         }
+
         int rowCount = 8;
         int seatsPerRow = hall.getCountOfSeats() / rowCount;
         int extraSeats = hall.getCountOfSeats() % rowCount;
+
         for (int i = 0; i < rowCount; i++) {
-            int seatsInRow = seatsPerRow + (i == rowCount - 1 ? extraSeats : 0);
+
+            int seatsInRow = seatsPerRow + (extraSeats > 0 ? 1 : 0);
+            if (extraSeats > 0) {
+                extraSeats--;
+            }
+
             for (int j = 1; j <= seatsInRow; j++) {
                 Ticket ticket = new Ticket();
                 ticket.setRowNumber(i + 1);
