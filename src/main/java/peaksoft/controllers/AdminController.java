@@ -206,6 +206,7 @@ public class AdminController {
 
         Movie movieEntity = movieService.findMovieById(movieId);
         Hall hallEntity = hallService.findHallById(hallId);
+        Cinema cinemaEntity = hallEntity.getCinema();
 
         showTime.setMovie(movieEntity);
         showTime.setHall(hallEntity);
@@ -221,6 +222,11 @@ public class AdminController {
         if (isTimeSlotTaken) {
             model.addAttribute("warning", "Сеанс на это время уже занят. Выберите другое время.");
         } else {
+            if (!cinemaEntity.getMovies().contains(movieEntity)) {
+                cinemaEntity.getMovies().add(movieEntity);
+                movieEntity.getCinemas().add(cinemaEntity);
+                cinemaService.save(cinemaEntity);
+            }
 
             showTimeService.saveShowTime(showTime);
             model.addAttribute("success", "Сеанс успешно добавлен.");
